@@ -91,7 +91,6 @@
         </div>
     </div>
 
-    <!-- Modals -->
     <!-- Modal Ajout -->
     <x-modal id="addModal" title="Ajouter une matiere" maxWidth="lg">
         <form id="addForm" action="{{ route('programmes.storeMatiere') }}" method="POST">

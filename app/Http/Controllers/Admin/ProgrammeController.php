@@ -126,7 +126,13 @@ class ProgrammeController extends Controller
 
         Annee::create($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Année scolaire ajoutée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Année scolaire ajoutée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -138,7 +144,13 @@ class ProgrammeController extends Controller
         ]);
         Filiere::create($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Filiere ajoutée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Filière ajoutée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -151,7 +163,13 @@ class ProgrammeController extends Controller
 
         Semestre::create($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Semestre ajouté avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Semestre ajouté avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -163,7 +181,13 @@ class ProgrammeController extends Controller
         ]);
         Matiere::create($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Matière ajoutée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Matière ajoutée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -173,7 +197,13 @@ class ProgrammeController extends Controller
 
         Niveau::create($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Niveau ajouté avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Niveau ajouté avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -186,7 +216,13 @@ class ProgrammeController extends Controller
 
         Classe::create($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Classe ajoutée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Classe ajoutée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -240,7 +276,13 @@ class ProgrammeController extends Controller
         $annee = Annee::findOrFail($id);
         $annee->update($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Année scolaire mise à jour avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Année scolaire mise à jour avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -254,7 +296,13 @@ class ProgrammeController extends Controller
         $filiere = Filiere::findOrFail($id);
         $filiere->update($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Filière mise à jour avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Filière mise à jour avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -268,7 +316,13 @@ class ProgrammeController extends Controller
         $semestre = Semestre::findOrFail($id);
         $semestre->update($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Semestre mis à jour avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Semestre mis à jour avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -282,7 +336,13 @@ class ProgrammeController extends Controller
         $matiere = Matiere::findOrFail($id);
         $matiere->update($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Matière mise à jour avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Matière mise à jour avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -293,7 +353,13 @@ class ProgrammeController extends Controller
         $niveau = Niveau::findOrFail($id);
         $niveau->update($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Niveau mis à jour avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Niveau mis à jour avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();    
     }
 
@@ -307,7 +373,13 @@ class ProgrammeController extends Controller
         $classe = Classe::findOrFail($id);
         $classe->update($request->all());
 
-        Swal::success(['title' => 'Succès', 'text' => 'Classe mise à jour avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Classe mise à jour avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -369,7 +441,13 @@ class ProgrammeController extends Controller
         $annee = Annee::findOrFail($id);
         $annee->delete();
 
-        Swal::success(['title' => 'Succès', 'text' => 'Année scolaire supprimée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Année scolaire supprimée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -391,7 +469,13 @@ class ProgrammeController extends Controller
     {
         $semestre = Semestre::findOrFail($id);
         $semestre->delete();
-        Swal::success(['title' => 'Succès', 'text' => 'Semestre supprimé avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Semestre supprimé avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -399,7 +483,13 @@ class ProgrammeController extends Controller
     {
         $matiere = Matiere::findOrFail($id);
         $matiere->delete();
-        Swal::success(['title' => 'Succès', 'text' => 'Matière supprimée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Matière supprimée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -407,7 +497,13 @@ class ProgrammeController extends Controller
     {
         $niveau = Niveau::findOrFail($id);
         $niveau->delete();
-        Swal::success(['title' => 'Succès', 'text' => 'Niveau supprimé avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Niveau supprimé avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -415,7 +511,13 @@ class ProgrammeController extends Controller
     {
         $classe = Classe::findOrFail($id);
         $classe->delete();
-        Swal::success(['title' => 'Succès', 'text' => 'Classe supprimée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Classe supprimée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -425,7 +527,13 @@ class ProgrammeController extends Controller
         $matiere->enseignant_id = null;
         $matiere->save();
 
-        Swal::success(['title' => 'Succès', 'text' => 'Affectation supprimée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Affectation supprimée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 
@@ -435,7 +543,13 @@ class ProgrammeController extends Controller
         $matiere->enseignant_id = null;
         $matiere->save();
 
-        Swal::success(['title' => 'Succès', 'text' => 'Affectation supprimée avec succès.']);
+        Swal::toast([
+            'icon' => 'success',
+            'title' => 'Affectation supprimée avec succès.',
+            'position' => 'top-end',
+            'timer' => 3000,
+            'showConfirmButton' => false,
+        ]);
         return redirect()->back();
     }
 

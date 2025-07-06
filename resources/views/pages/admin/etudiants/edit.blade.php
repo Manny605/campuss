@@ -5,13 +5,13 @@
     <div class="p-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Détails de l'étudiant</h2>
 
-        <form action="{{ route('etudiants.update') }}" method="POST" class="space-y-6">
-            @method('POST')
+        <form action="{{ route('etudiants.update', $etudiant) }}" method="POST" class="space-y-6">
+            @method('PUT')
             @csrf
 
             <x-forms.informations-personnelles :data="$etudiant"/>
             <x-forms.informations-academiques :classes="$classes" />
-            <x-forms.informations-tuteur />
+            <x-forms.informations-tuteur :data="$tuteur" />
 
             <div class="flex justify-end">
                 <button type="submit"
@@ -22,7 +22,10 @@
         </form>
     </div>
 </x-layout>
-@section('scripts')
+
+
+
+{{-- @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialisation des sélecteurs
@@ -51,4 +54,4 @@
             // Initialiser les options de tuteur au chargement
             updateTuteursOptions();
         });
-    </script>
+    </script> --}}
