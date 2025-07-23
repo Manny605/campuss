@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('date_embauche');
             $table->string('specialite');
             $table->string('grade');
+            $table->foreignId('classe_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
