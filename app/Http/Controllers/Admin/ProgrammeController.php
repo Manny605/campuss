@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use SweetAlert2\Laravel\Swal;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Classe;
 use App\Models\Niveau;
@@ -14,6 +16,7 @@ use App\Models\Semestre;
 use App\Models\Matiere;
 use App\Models\Enseignant;
 use App\Models\Filiere_Niveau;
+use App\Models\Filiere_Matiere;
 
 
 class ProgrammeController extends Controller
@@ -60,15 +63,16 @@ class ProgrammeController extends Controller
         return view('pages.admin.programmes.classes.index', compact('niveaux', 'filiere', 'filiereNiveaux'));
     }
 
-    public function indexMatiereToFiliere($id) 
+    public function indexNiveauxFiliere($id) 
     {
         $filiere = Filiere::findOrFail($id);
         $matieres = Matiere::all();
         $niveaux = Niveau::all();
-        $filiereMatieres = $filiere->matieres()->pluck('matieres.id')->toArray();
+        $semestres = Semestre::all();
         $filiereNiveaux = $filiere->niveaux()->pluck('niveaux.id')->toArray();
+        $filiereMatieres = $filiere->matieres()->pluck('matieres.id')->toArray();
 
-        return view('pages.admin.programmes.affectMF.index', compact('matieres', 'niveaux', 'filiere', 'filiereMatieres', 'filiereNiveaux'));
+        return view('pages.admin.programmes.filieres.index_NiveauxFiliere', compact('matieres', 'niveaux', 'filiere', 'semestres', 'filiereMatieres', 'filiereNiveaux'));
     }
 
     public function indexMatiereToEnseignant() 
@@ -84,6 +88,13 @@ class ProgrammeController extends Controller
 
 
 
+
+
+
+
+
+
+
     // Create methods
     public function createClasse(Request $request)
     {
@@ -92,18 +103,14 @@ class ProgrammeController extends Controller
         return view('pages.admin.programmes.classes.create', compact('filieres', 'niveaux'));
     }
 
-
-
-
-
-
-
-    // Show methods
-    public function showFiliere($id)
+    public function createMatieresToFiliere($filiere_id, $semestre_id)
     {
-        $filiere = Filiere::findOrFail($id);
-        return view('pages.admin.programmes.filieres.show', compact('filiere'));
+        $filiere = Filiere::findOrFail($filiere_id);
+        $semestre = Semestre::findOrFail($semestre_id);
+        $matieres_associees = $filiere->matieres()->orderBy('created_at', 'desc')->get();
+        return view('pages.admin.programmes.filieres.createMatiere', compact('filiere', 'semestre', 'matieres_associees'));
     }
+
 
 
 
@@ -173,24 +180,6 @@ class ProgrammeController extends Controller
         return redirect()->back();
     }
 
-    public function storeMatiere(Request $request)
-    {
-        $request->validate([
-            'code' => 'required|unique:matieres,code',
-            'nom' => 'required',
-        ]);
-        Matiere::create($request->all());
-
-        Swal::toast([
-            'icon' => 'success',
-            'title' => 'Matière ajoutée avec succès.',
-            'position' => 'top-end',
-            'timer' => 3000,
-            'showConfirmButton' => false,
-        ]);
-        return redirect()->back();
-    }
-
     public function storeNiveau(Request $request)
     { 
         $request->validate(['nom' => 'required']);
@@ -239,8 +228,6 @@ class ProgrammeController extends Controller
 
         return redirect()->back()->with('success', 'Matiere affecté à la matière.');
     }
-
-
 
     public function storeMatiereToEnseignant(Request $request)
     {
@@ -331,6 +318,7 @@ class ProgrammeController extends Controller
         $request->validate([
             'code' => 'required|unique:matieres,code,' . $id,
             'nom' => 'required',
+            'coefficient' => 'required|numeric|between:0,10',
         ]);
 
         $matiere = Matiere::findOrFail($id);
@@ -383,14 +371,25 @@ class ProgrammeController extends Controller
         return redirect()->back();
     }
 
-    public function updateAffectToFiliere(Request $request, $id)
+
+
+
+
+
+
+
+
+
+
+
+
+    // Affectations methods
+    public function AffectNiveauxToFiliere(Request $request, $id)
     {
         $filiere = Filiere::findOrFail($id);
-        $matiereIds = $request->input('matieres', []);
         $niveauIds = $request->input('niveaux', []);
 
-        // Synchroniser les matières et niveaux
-        $filiere->matieres()->sync($matiereIds);
+        // Synchroniser - niveaux
         $filiere->niveaux()->sync($niveauIds);
 
         // Obtenir l'année active ou en cours
@@ -422,6 +421,64 @@ class ProgrammeController extends Controller
         ]);
         return redirect()->back();
     }
+
+    public function AffectMatieresToFiliere(Request $request)
+    {
+        // Validation des données
+        $request->validate([
+            'filiere_id' => 'required|exists:filieres,id',
+            'matieres' => 'required|array|min:1',
+            'matieres.*.code' => 'required|unique:matieres,code|max:10',
+            'matieres.*.nom' => 'required|max:255',
+            'matieres.*.coefficient' => 'required|numeric|between:0,10',
+            'semestre_id' => 'required|exists:semestres,id',
+        ]);
+
+        $filiereId = $request->input('filiere_id');
+        $semestreId = $request->input('semestre_id');
+        $matieresData = $request->input('matieres');
+
+        try {
+            foreach ($matieresData as $matiere) {
+                $created = \App\Models\Matiere::create([
+                    'code' => $matiere['code'],
+                    'nom' => $matiere['nom'],
+                    'coefficient' => $matiere['coefficient'],
+                    'semestre_id' => $semestreId,
+                ]);
+
+                // Associer la matière à la filière (table pivot)
+                \App\Models\Filiere_Matiere::create([
+                    'filiere_id' => $filiereId,
+                    'matiere_id' => $created->id,
+                ]);
+            }
+
+            // Notification Toast
+            \SweetAlert2\Laravel\Swal::toast([
+                'icon' => 'success',
+                'title' => 'Matière(s) ajoutée(s) avec succès.',
+                'position' => 'top-end',
+                'timer' => 3000,
+                'showConfirmButton' => false,
+            ]);
+
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            \SweetAlert2\Laravel\Swal::toast([
+                'icon' => 'error',
+                'title' => 'Erreur lors de l\'ajout.',
+                'text' => $e->getMessage(),
+                'position' => 'top-end',
+                'timer' => 3000,
+                'showConfirmButton' => true,
+            ]);
+
+            return redirect()->back()->withInput();
+        }
+    }
+
 
 
 

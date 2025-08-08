@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('filiere_id')->constrained()->onDelete('cascade');
             $table->foreignId('matiere_id')->constrained()->onDelete('cascade');
-            $table->decimal('coefficient', 3, 2)->nullable(); // Décimal au lieu de string
             $table->timestamps();
         });
     }

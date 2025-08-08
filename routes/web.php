@@ -12,8 +12,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/filieres', 'indexFiliere')->name('programmes.indexFiliere');
         Route::get('/annees', 'indexAnnee')->name('programmes.indexAnnee');
         Route::get('/semestres', 'indexSemestre')->name('programmes.indexSemestre');
-        Route::get('/matieres', 'indexMatiere')->name('programmes.indexMatiere');
+        // Route::get('/matieres', 'indexMatiere')->name('programmes.indexMatiere');
         Route::get('/classes', 'indexClasse')->name('programmes.indexClasse');
+
 
 
         // Store routes
@@ -21,7 +22,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/filieres/store', 'storeFiliere')->name('programmes.storeFiliere');
         Route::post('/annees/store', 'storeAnnee')->name('programmes.storeAnnee');
         Route::post('/semestres/store', 'storeSemestre')->name('programmes.storeSemestre');
-        Route::post('/matieres/store', 'storeMatiere')->name('programmes.storeMatiere');
+        // Route::post('/matieres/store', 'storeMatiere')->name('programmes.storeMatiere');
         Route::post('/classes/store', 'storeClasse')->name('programmes.storeClasse');
 
         // Show routes
@@ -32,7 +33,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/filieres/update/{id}', 'updateFiliere')->name('programmes.updateFiliere');
         Route::put('/annees/update/{id}', 'updateAnnee')->name('programmes.updateAnnee');
         Route::put('/semestres/update/{id}', 'updateSemestre')->name('programmes.updateSemestre');
-        Route::put('/matieres/update/{id}', 'updateMatiere')->name('programmes.updateMatiere');
         Route::put('/classes/update/{id}', 'updateClasse')->name('programmes.updateClasse');
 
         // Delete routes
@@ -40,12 +40,18 @@ Route::middleware('auth')->group(function () {
         Route::delete('/filieres/delete/{id}', 'destroyFiliere')->name('programmes.destroyFiliere');
         Route::delete('/annees/delete/{id}', 'destroyAnnee')->name('programmes.destroyAnnee');
         Route::delete('/semestres/delete/{id}', 'destroySemestre')->name('programmes.destroySemestre');
-        Route::delete('/matieres/delete/{id}', 'destroyMatiere')->name('programmes.destroyMatiere');
         Route::delete('/classes/delete/{id}', 'destroyClasse')->name('programmes.destroyClasse');
 
         Route::prefix('affectations')->group(function () {
-            Route::get('/matieresToFiliere/{id}', 'indexMatiereToFiliere')->name('programmes.indexMatiereToFiliere');
-            Route::put('/AffectToFiliere/{filiere}', 'updateAffectToFiliere')->name('programmes.updateAffectToFiliere');
+            
+            Route::get('/filieres/niveaux/{id}', 'indexNiveauxFiliere')->name('programmes.indexNiveauxFiliere');
+            Route::put('/AffectNiveauxToFiliere/{filiere}', 'AffectNiveauxToFiliere')->name('programmes.updateAffectNiveauxToFiliere');
+
+            Route::get('/filieres/matieres/{fid}/{sid}', 'createMatieresToFiliere')->name('programmes.createMatieresToFiliere');
+            Route::post('/storeMatiere', 'AffectMatieresToFiliere')->name('programmes.AffectMatieresToFiliere');
+            Route::put('/matieres/update/{id}', 'updateMatiere')->name('programmes.updateMatiere');
+            Route::delete('/matieres/delete/{id}', 'destroyMatiere')->name('programmes.destroyMatiere');
+
         });
         
     });

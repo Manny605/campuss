@@ -52,12 +52,12 @@
                         href="{{ route('programmes.indexSemestre') }}"
                         :active="request()->routeIs('programmes.indexSemestre')" 
                     />
-                    <x-dropdown-item 
+                    {{-- <x-dropdown-item 
                         icon="fas fa-book-open" 
                         text="Matières"
                         href="{{ route('programmes.indexMatiere') }}"
                         :active="request()->routeIs('programmes.indexMatiere')" 
-                    />
+                    /> --}}
                     <x-dropdown-item 
                         icon="fas fa-th-list" 
                         text="Niveaux"

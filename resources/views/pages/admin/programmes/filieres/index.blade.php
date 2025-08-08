@@ -62,12 +62,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $filiere->nom }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
-                                        <a
-                                            href="{{ route('programmes.indexMatiereToFiliere', $filiere->id) }}"
+                                        <a href="{{ route('programmes.indexNiveauxFiliere', $filiere->id) }}"
                                             class="text-green-600 hover:text-green-900 p-1.5 rounded-full hover:bg-green-50 transition-colors duration-200"
-                                            title="Affecter">
-                                            <i class="fas fa-link w-4 h-4"></i>
-
+                                            title="Associer">
+                                            <i class="fas fa-link mr-2"></i>
                                         </a>
                                         <button
                                             onclick="document.getElementById('edit_id').value = {{ $filiere->id }}; openModal('editModal-{{ $filiere->id }}')"
@@ -164,7 +162,8 @@
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <form id="deleteForm" method="POST" action="{{ route('programmes.destroyFiliere', $filiere->id) }}/">
+                <form id="deleteForm" method="POST"
+                    action="{{ route('programmes.destroyFiliere', $filiere->id) }}/">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="id" id="delete_id">
@@ -205,6 +204,27 @@
                 row.style.display = text.includes(input) ? "" : "none";
             });
         }
+
+        // function toggleDropdown(id) {
+        //     document.querySelectorAll('[id^="dropdownMenu-"]').forEach(el => {
+        //         if (el.id !== id) el.classList.add('hidden');
+        //     });
+        //     const menu = document.getElementById(id);
+        //     menu.classList.toggle('hidden');
+        // }
+
+        // function closeDropdown(id) {
+        //     document.getElementById(id).classList.add('hidden');
+        // }
+        // // Close dropdown on click outside
+        // document.addEventListener('click', function(event) {
+        //     document.querySelectorAll('[id^="dropdownMenu-"]').forEach(menu => {
+        //         if (!menu.contains(event.target) && !document.getElementById('dropdownMenuButton-' + menu.id
+        //                 .split('-')[1]).contains(event.target)) {
+        //             menu.classList.add('hidden');
+        //         }
+        //     });
+        // });
     </script>
 
 </x-layout>
