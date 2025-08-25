@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('prenom');
             $table->string('nom');
+            $table->string('telephone')->nullable();
             $table->date('date_embauche');
             $table->string('specialite');
-            $table->string('grade');
-            $table->foreignId('classe_id')->constrained()->onDelete('cascade');
+            $table->string('grade')->nullable();
             $table->timestamps();
         });
     }

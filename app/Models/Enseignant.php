@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Matiere;
 use App\Models\User;
-use App\Models\Matiere_Enseignant;
+use App\Models\Enseignant_Matiere;
 
 class Enseignant extends Model
 {
@@ -15,7 +15,11 @@ class Enseignant extends Model
         'user_id',
         'prenom',
         'nom',
+        'telephone',
         'date_embauche',
+        'specialite',
+        'grade',
+        'classe_id',
     ];
 
     protected $casts = [
@@ -27,11 +31,18 @@ class Enseignant extends Model
         return $this->belongsTo(User::class);
     }
 
+     public function classe()
+    {
+        return $this->belongsTo(Classe::class);
+    } 
+
     public function matieres()
     {
-        return $this->belongsToMany(Matiere::class, 'matiere_enseignant')
-                    ->using(Matiere_Enseignant::class)
-                    ->withPivot('semestre_id')
-                    ->withTimestamps();
+        return $this->belongsToMany(Matiere::class, 'matiere_enseignant')->withTimestamps();
+    }
+
+    public function classes()
+    {
+        return $this->belongsToMany(Classe::class, 'enseignant_classe')->withTimestamps();
     }
 }

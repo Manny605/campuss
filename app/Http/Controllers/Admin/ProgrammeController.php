@@ -107,7 +107,7 @@ class ProgrammeController extends Controller
     {
         $filiere = Filiere::findOrFail($filiere_id);
         $semestre = Semestre::findOrFail($semestre_id);
-        $matieres_associees = $filiere->matieres()->orderBy('created_at', 'desc')->get();
+        $matieres_associees = $filiere->matieres()->where('semestre_id', $semestre->id)->orderBy('created_at', 'desc')->get();
         return view('pages.admin.programmes.filieres.createMatiere', compact('filiere', 'semestre', 'matieres_associees'));
     }
 

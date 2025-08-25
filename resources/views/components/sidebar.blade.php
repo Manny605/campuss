@@ -24,7 +24,7 @@
                     :active="request()->routeIs('etudiants.index')" 
                 />
                 <x-dashboard-nav-link 
-                    href="#" 
+                    href="{{ route('enseignants.index') }}" 
                     icon="fas fa-chalkboard-teacher" 
                     text="Enseignants"
                     :active="request()->is('enseignants*')" 

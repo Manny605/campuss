@@ -9,9 +9,9 @@
             @method('POST')
             @csrf
 
-            <x-forms.informations-personnelles />
-            <x-forms.informations-academiques :classes="$classes" />
-            <x-forms.informations-tuteur />
+            <x-forms.etudiant-informations-personnelles />
+            <x-forms.etudiant-informations-academiques :classes="$classes" />
+            <x-forms.etudiant-informations-tuteur />
 
             <div class="flex justify-end">
                 <button type="submit"

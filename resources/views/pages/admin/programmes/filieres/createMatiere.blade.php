@@ -113,37 +113,47 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($matieres_associees as $matiere)
+                            @if ($matieres_associees->isEmpty())
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">{{ $matiere->code }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $matiere->nom }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $matiere->coefficient }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button
-                                            onclick="document.getElementById('edit_id').value = {{ $matiere->id }}; openModal('editModal-{{ $matiere->id }}')"
-                                            class="text-indigo-600 hover:text-indigo-900 mr-3 cursor-pointer">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-
-                                        <button
-                                            onclick="document.getElementById('delete_id').value = {{ $matiere->id }}; openModal('deleteModal-{{ $matiere->id }}')"
-                                            class="text-red-600 hover:text-red-900 cursor-pointer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+                                        Aucune matière associée à cette filière.
                                     </td>
                                 </tr>
-                            @endforeach
+                            @else
+                            
+                                @foreach ($matieres_associees as $matiere)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">{{ $matiere->code }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">{{ $matiere->nom }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ $matiere->coefficient }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button
+                                                onclick="document.getElementById('edit_id').value = {{ $matiere->id }}; openModal('editModal-{{ $matiere->id }}')"
+                                                class="text-indigo-600 hover:text-indigo-900 mr-3 cursor-pointer">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <button
+                                                onclick="document.getElementById('delete_id').value = {{ $matiere->id }}; openModal('deleteModal-{{ $matiere->id }}')"
+                                                class="text-red-600 hover:text-red-900 cursor-pointer">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                            @endif
                         </tbody>
                     </table>
                 </div>

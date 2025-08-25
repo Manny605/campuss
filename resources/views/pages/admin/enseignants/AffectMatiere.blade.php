@@ -1,11 +1,11 @@
 <x-layout>
 
     <x-slot:title>
-        Gestion des Filières - Admin
+        Association Matières - Admin
     </x-slot:title>
 
     <x-slot:header>
-        Configuration des filières
+        Associer des matières à l’enseignant
     </x-slot:header>
 
     <div class="container mx-auto px-4 py-8">
@@ -14,19 +14,14 @@
             <div>
                 <h1 class="text-2xl font-bold text-gray-800 flex items-center">
                     <i class="fas fa-project-diagram text-blue-500 mr-3"></i>
-                    {{ $filiere->nom }} <span
-                        class="ml-2 text-base font-normal text-gray-500">({{ $filiere->code }})</span>
+                    {{ $enseignant->prenom }} {{ $enseignant->nom }}
                 </h1>
-                <div class="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                {{-- <div class="flex items-center gap-4 mt-2 text-sm text-gray-600">
                     <span>
                         <i class="fas fa-book-open mr-1 text-green-500"></i>
                         {{ $filiere->matieres->count() }} matière{{ $filiere->matieres->count() > 1 ? 's' : '' }}
                     </span>
-                    <span>
-                        <i class="fas fa-layer-group mr-1 text-blue-400"></i>
-                        {{ $filiere->niveaux->count() }} niveau{{ $filiere->niveaux->count() > 1 ? 'x' : '' }}
-                    </span>
-                </div>
+                </div> --}}
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('programmes.indexFiliere') }}"
@@ -42,7 +37,7 @@
 
         <!-- Main Configuration Card -->
         <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-            <form method="POST" action="{{ route('programmes.updateAffectNiveauxToFiliere', $filiere->id) }}">
+            <form method="POST" action="">
                 @csrf
                 @method('PUT')
 
@@ -59,27 +54,46 @@
                     <div class="space-y-4">
                         <h3 class="text-md font-medium text-gray-700 flex items-center">
                             <i class="fas fa-layer-group text-blue-500 mr-2"></i>
-                            Sélection des niveaux
+                            Sélection des filières
                         </h3>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            @foreach ($niveaux as $niveau)
+                            @foreach ($classes as $classe)
                                 <div class="relative">
-                                    <input type="checkbox" name="niveaux[]" value="{{ $niveau->id }}"
-                                        id="niveau_{{ $niveau->id }}" class="hidden peer"
-                                        @checked($filiere->niveaux->contains($niveau->id))>
-                                    <label for="niveau_{{ $niveau->id }}"
-                                        class="flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50">
-                                        <span class="font-medium">{{ $niveau->nom }}</span>
+                                    {{-- Checkbox caché --}}
+                                    <input type="checkbox" name="classes[]" value="{{ $classe->id }}"
+                                        id="classe_{{ $classe->id }}" class="hidden peer"
+                                        @checked($enseignant->classes->contains($classe->id))>
+
+                                    {{-- Label stylisé qui sert de bouton --}}
+                                    <label for="classe_{{ $classe->id }}"
+                                        class="flex flex-col gap-2 p-4 border rounded-lg cursor-pointer transition hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50">
+
+                                        {{-- Filière --}}
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-graduation-cap text-blue-500"></i>
+                                            <span class="font-medium">{{ $classe->filiereNiveau->filiere->nom }}</span>
+                                        </div>
+
+                                        {{-- Niveau --}}
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-layer-group text-gray-400"></i>
+                                            <span class="text-sm">{{ $classe->filiereNiveau->niveau->nom }}</span>
+                                        </div>
+
+                                        {{-- Badge d’association --}}
                                         <span
-                                            class="text-xs px-2 py-1 rounded-full 
-                                              {{ $filiere->niveaux->contains($niveau->id) ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' }}">
-                                            {{ $filiere->niveaux->contains($niveau->id) ? 'Associé' : 'Non associé' }}
+                                            class="text-xs px-2 py-1 rounded-full self-start
+                    {{ $enseignant->classes->contains($classe->id)
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-gray-100 text-gray-800' }}">
+                                            {{ $enseignant->classes->contains($classe->id) ? 'Associé' : 'Non associé' }}
                                         </span>
                                     </label>
                                 </div>
                             @endforeach
                         </div>
+
                     </div>
 
                     <!-- Form Actions -->
@@ -93,62 +107,64 @@
                 </div>
             </form>
 
-            <!-- Semestres -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Semestres</h3>
+            <!-- Filieres associees -->
+            {{-- <div class="bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Filières associées</h3>
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Semestre
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Filière
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Matieres
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Niveau
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @if ($semestres->isEmpty())
+                            @if ($classes->isEmpty())
                                 <tr>
                                     <td colspan="3" class="px-6 py-4 text-center text-gray-500">
-                                        Aucun semestre associé à cette filière.
+                                        Aucune filière n'est associée à cet enseignant.
                                     </td>
                                 </tr>
                             @else
-
-                                @foreach ($semestres as $semestre)
+                                @foreach ($classes as $classe)
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <i class="fas fa-calendar-alt text-blue-500 mr-3"></i>
-                                                <span class="text-sm font-medium text-gray-900">{{ $semestre->code }}</span>
+                                                <i class="fas fa-graduation-cap text-blue-500 mr-3"></i>
+                                                <span
+                                                    class="text-sm font-medium text-gray-900">{{ $classe->filiereNiveau->filiere->nom }}</span>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <i class="fas fa-book text-blue-500 mr-3"></i>
-                                                <span class="text-sm font-medium text-gray-900">{{ $semestre->matieres->count() }}</span>
+                                                <i class="fas fa-calendar-alt text-blue-500 mr-3"></i>
+                                                <span
+                                                    class="text-sm font-medium text-gray-900">{{ $classe->filiereNiveau->niveau->nom }}</span>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="{{ route('programmes.createMatieresToFiliere', [$filiere->id, $semestre->id]) }}" class="btn btn-sm btn-blue">
+                                            <a href="" class="btn btn-sm btn-blue">
                                                 <i class="fas fa-link mr-2"></i> Associer des matières
                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach
-
                             @endif
                         </tbody>
                     </table>
                 </div>
-
-            </div>
+            </div> --}}
 
         </div>
 
@@ -181,4 +197,5 @@
             @apply border-blue-500 bg-blue-50;
         }
     </style>
+
 </x-layout>

@@ -20,8 +20,7 @@ class EtudiantController extends Controller
      */
     public function index()
     {
-        $etudiants = \App\Models\Etudiant::paginate(10);
-        
+        $etudiants = Etudiant::orderBy('created_at', 'desc')->paginate(10);
         return view('pages.admin.etudiants.index', compact('etudiants'));
     }
 

@@ -9,9 +9,9 @@
             @method('PUT')
             @csrf
 
-            <x-forms.etudiant-informations-personnelles :data="$etudiant"/>
-            <x-forms.etudiant-informations-academiques :classes="$classes" />
-            <x-forms.etudiant-informations-tuteur :data="$tuteur" />
+            <x-forms.informations-personnelles :data="$etudiant"/>
+            <x-forms.informations-academiques :classes="$classes" />
+            <x-forms.informations-tuteur :data="$tuteur" />
 
             <div class="flex justify-end">
                 <button type="submit"

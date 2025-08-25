@@ -10,12 +10,11 @@ use App\Models\Semestre;
 
 class Matiere_Enseignant extends Model
 {
-    protected $table = 'matiere_enseignant';
+    protected $table = 'enseignant_matiere';
 
     protected $fillable = [
-        'matiere_id',
         'enseignant_id',
-        'semestre_id',
+        'matiere_id',
     ];
 
     public function matiere()
@@ -27,9 +26,5 @@ class Matiere_Enseignant extends Model
     {
         return $this->belongsTo(Enseignant::class);
     }
-
-    public function semestre()
-    {
-        return $this->belongsTo(Semestre::class);
-    }
+    
 }

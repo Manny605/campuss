@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\ProgrammeController;
 use App\Http\Controllers\Admin\EtudiantController;
+use App\Http\Controllers\Admin\EnseignantController;
+
 
 
 Route::middleware('auth')->group(function () {
@@ -57,14 +59,24 @@ Route::middleware('auth')->group(function () {
     });
     
 
-    
+    Route::prefix('/enseignants')->controller(EnseignantController::class)->group(function () {
+        Route::get('/', 'index')->name('enseignants.index');
+        Route::get('/create', 'create')->name('enseignants.create');
+        Route::post('/store', 'store')->name('enseignants.store');
+        Route::get('/edit/{id}', 'edit')->name('enseignants.edit');
+        Route::put('/update/{id}', 'update')->name('enseignants.update');
+        Route::delete('/delete/{id}', 'destroy')->name('enseignants.destroy');
+        Route::get('/matieres/{id}', 'pageAffectMatieres')->name('enseignants.matieres');
+    });
 
-    Route::get('/etudiants', [EtudiantController::class, 'index'])->name('etudiants.index');
-    Route::get('/etudiants/create', [EtudiantController::class, 'create'])->name('etudiants.create');
-    Route::get('/etudiants/edit/{id}', [EtudiantController::class, 'edit'])->name('etudiants.edit');
-    Route::post('/etudiants/store', [EtudiantController::class, 'store'])->name('etudiants.store');    
-    Route::put('/etudiants/update/{id}', [EtudiantController::class, 'update'])->name('etudiants.update');
-    Route::delete('/etudiants/delete/{id}', [EtudiantController::class, 'destroy'])->name('etudiants.destroy');
+    Route::prefix('/etudiants')->controller(EtudiantController::class)->group(function () {
+        Route::get('/', 'index')->name('etudiants.index');
+        Route::get('/create', 'create')->name('etudiants.create');
+        Route::post('/store', 'store')->name('etudiants.store');
+        Route::get('/edit/{id}', 'edit')->name('etudiants.edit');
+        Route::put('/update/{id}', 'update')->name('etudiants.update');
+        Route::delete('/delete/{id}', 'destroy')->name('etudiants.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';
