@@ -22,14 +22,14 @@ class Filiere extends Model
         return $this->hasMany(Classe::class);
     }
 
-    public function matieres(): BelongsToMany
+    public function matieres() : BelongsToMany
     {
-        return $this->belongsToMany(Matiere::class, 'filiere_matiere')->withTimestamps();
+        return $this->belongsToMany(Matiere::class, 'filiere_matiere', 'filiere_id', 'matiere_id');
     }
 
     public function niveaux(): BelongsToMany
     {
-        return $this->belongsToMany(Niveau::class, 'filiere_niveau')->withTimestamps();
+        return $this->hasMany(Niveau::class, 'filiere_niveau')->withTimestamps();
     }
     
 }

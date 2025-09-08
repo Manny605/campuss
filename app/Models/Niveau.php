@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Classe;
+use App\Models\Filiere_Niveau;
 
 class Niveau extends Model
 {

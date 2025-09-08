@@ -8,6 +8,8 @@ use App\Models\Enseignant;
 use App\Models\Matiere_Enseignant;
 use App\Models\Filiere_Matiere;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 class Matiere extends Model
 {
     protected $fillable = [
@@ -17,9 +19,9 @@ class Matiere extends Model
         'semestre_id',
     ];
 
-    public function filieres()
+    public function filieres() : BelongsToMany
     {
-        return $this->belongsToMany(Filiere::class, 'filiere_matiere')->withTimestamps();
+        return $this->belongsToMany(Filiere::class, 'filiere_matiere', 'matiere_id', 'filiere_id');
     }
 
     public function semestre()

@@ -4,25 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use SweetAlert2\Laravel\Swal;
 
 use App\Models\Enseignant;
-use SweetAlert2\Laravel\Swal;
+use App\Models\Matiere;
+use App\Models\Filiere;
+
+
 
 class EnseignantController extends Controller
 {
-
-
-            // $table->id();
-            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            // $table->string('prenom');
-            // $table->string('nom');
-            // $table->date('date_embauche');
-            // $table->string('specialite');
-            // $table->string('grade');
-            // $table->foreignId('classe_id')->constrained()->onDelete('cascade');
-            // $table->timestamps();
-
-
     /**
      * Display a listing of the resource.
      */
@@ -94,9 +85,10 @@ class EnseignantController extends Controller
 
     public function pageAffectMatieres(string $id)
     {
-        $classes = \App\Models\Classe::all();
+        $filieres = Filiere::with('matieres')->get();
+        $niveaux = \App\Models\Niveau::all();
         $enseignant = \App\Models\Enseignant::findOrFail($id);
-        return view('pages.admin.enseignants.AffectMatiere', compact('enseignant', 'classes'));
+        return view('pages.admin.enseignants.AffectMatiere', compact('enseignant', 'filieres', 'niveaux'));
     }
 
     /**
