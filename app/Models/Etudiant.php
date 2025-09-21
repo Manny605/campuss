@@ -3,42 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\User;
-use App\Models\Classe;
+
 use App\Models\Tuteur;
-use App\Models\Etudiant_Tuteur;
+use App\Models\Inscription;
 
 class Etudiant extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'prenom',
-        'nom',
-        'telephone',
-        'date_naissance',
-        'classe_id',
-    ];
+    protected $table = 'etudiants';
 
-    protected $casts = [
-        'date_naissance' => 'date',
-    ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function classe(): BelongsTo
-    {
-        return $this->belongsTo(Classe::class);
-    }
+    protected $fillable = ['id', 'matricule', 'date_naissance', 'lieu_naissance', 'genre'];
 
     public function tuteurs()
     {
-        return $this->belongsToMany(Tuteur::class, 'etudiant_tuteur')
-                    ->using(Etudiant_Tuteur::class)
-                    ->withTimestamps();
+        return $this->belongsToMany(Tuteur::class, 'etudiants_parents', 'etudiant_id', 'parent_id');
+    }
+
+    public function inscriptions()
+    {
+        return $this->hasMany(Inscription::class, 'etudiant_id');
     }
 
 }

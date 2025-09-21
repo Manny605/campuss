@@ -13,17 +13,15 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('etudiant_id')->constrained()->onDelete('cascade');
-            $table->foreignId('matiere_id')->constrained()->onDelete('cascade');
-            $table->foreignId('semestre_id')->constrained()->onDelete('cascade');
-            $table->enum('type_evaluation', ['devoir', 'examen']);
-            $table->decimal('valeur', 5, 2)->nullable();
-            $table->decimal('poids', 3, 2)->nullable();
-            $table->date('date')->nullable();
+            $table->foreignId('inscription_id')->constrained()->onDelete('cascade');
+            $table->foreignId('devoir_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('examen_id')->nullable()->constrained()->onDelete('cascade');
+            $table->decimal('note', 6, 2);
+            $table->string('commentaire')->nullable();
+            $table->foreignId('corrige_par')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

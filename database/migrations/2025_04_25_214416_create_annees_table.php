@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('annees', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle')->unique(); // Ex : "2024-2025"
-            $table->boolean('active')->default(false); // Pour indiquer l’année académique active
+            $table->string('code')->unique(); // ex 2023-2024
+            $table->date('date_debut');
+            $table->date('date_fin');
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

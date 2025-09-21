@@ -37,6 +37,11 @@ class AuthentificationController extends Controller
         }
 
         $request->session()->regenerate();
+
+        if ($credentials['identifiant'] === 'admin' && $credentials['password'] === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
         return redirect()->intended('/dashboard');
     }
 

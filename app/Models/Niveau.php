@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Classe;
-use App\Models\Filiere_Niveau;
+use App\Models\Filiere;
 
 class Niveau extends Model
 {
+    protected $table = 'niveaux';
+
     protected $fillable = ['nom'];
 
     public function classes()
     {
-        return $this->hasMany(Classe::class, 'filiere_niveau_id', 'id');
+        return $this->hasMany(Classe::class, 'niveau_id');
     }
 
-    public function filiereNiveaux()
+    public function filieres()
     {
-        return $this->hasMany(Filiere_Niveau::class, 'niveau_id', 'id');
+        return $this->belongsToMany(Filiere::class, 'filiere_niveau', 'niveau_id', 'filiere_id')->withTimestamps();
     }
 }

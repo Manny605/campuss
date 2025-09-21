@@ -3,33 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 use App\Models\Classe;
-use App\Models\Matiere;
 use App\Models\Niveau;
+
 
 class Filiere extends Model
 {
-    protected $fillable = [
-        'code', 
-        'nom'
-    ];
+    protected $table = 'filieres';
 
+    protected $fillable = ['code', 'nom'];
 
-    public function classes(): HasMany
+    public function classes()
     {
-        return $this->hasMany(Classe::class);
+        return $this->hasMany(Classe::class, 'filiere_id');
+    }   
+
+    public function niveaux()
+    {
+        return $this->belongsToMany(Niveau::class, 'filiere_niveau', 'filiere_id', 'niveau_id')->withTimestamps();
     }
 
-    public function matieres() : BelongsToMany
+    public function matieres()
     {
-        return $this->belongsToMany(Matiere::class, 'filiere_matiere', 'filiere_id', 'matiere_id');
+        return $this->belongsToMany(Matiere::class, 'filiere_matiere', 'filiere_id', 'matiere_id')->withTimestamps();
     }
-
-    public function niveaux(): BelongsToMany
-    {
-        return $this->hasMany(Niveau::class, 'filiere_niveau')->withTimestamps();
-    }
-    
 }

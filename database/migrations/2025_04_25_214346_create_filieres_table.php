@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('filieres', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->string('nom');
+            $table->string('code'); // ex: CS, SE, MECA
+            $table->string('nom'); // ex: Reseeaux et Systeme, Genie Logiciel, Resources Hmaines...
             $table->timestamps();
         });
     }

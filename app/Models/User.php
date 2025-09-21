@@ -19,26 +19,45 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'nom', 'prenom', 'telephone',
         'identifiant',
-        'password',
-        'role'
+        'password', 'statut'
     ];
 
 
-    public function etudiants(): HasMany
+
+
+
+
+    // Relations
+
+    public function roles()
     {
-        return $this->hasMany(Etudiant::class);
+        return $this->belongsToMany(Role::class, 'user_role');
     }
 
-    public function enseignants(): HasMany
+    public function permissions()
     {
-        return $this->hasMany(Enseignants::class);
+        return $this->roles->map->permissions->flatten()->unique('id');
     }
 
-    public function tuteurs(): HasMany
+    public function etudiant()
     {
-        return $this->hasMany(Tuteurs::class);
+        return $this->hasOne(Etudiant::class, 'id');
     }
+
+    public function parent()
+    {
+        return $this->hasOne(ParentTuteur::class, 'id');
+    }
+
+
+
+
+
+
+
+    
 
     /**
      * The attributes that should be hidden for serialization.

@@ -3,28 +3,43 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\Filiere_Niveau;
-use App\Models\Etudiant;
+
 use App\Models\Annee;
+use App\Models\Niveau;
+use App\Models\Filiere;
+use App\Models\Matiere;
+
 
 class Classe extends Model
 {
-    protected $fillable = ['filiere_niveau_id', 'annee_id'];
+    protected $table = 'classes';
 
-    public function filiereNiveau(): BelongsTo
+    protected $fillable = [
+        'annee_id', 
+        'niveau_id', 
+        'filiere_id',
+        'nom', 
+        'capacite'
+    ];
+
+    public function anneeAcademique()
     {
-        return $this->belongsTo(Filiere_Niveau::class, 'filiere_niveau_id');
+        return $this->belongsTo(Annee::class, 'annee_id');
     }
 
-    public function annee(): BelongsTo
+    public function niveau()
     {
-        return $this->belongsTo(Annee::class);
+        return $this->belongsTo(Niveau::class, 'niveau_id');
     }
 
-    public function etudiants()
+    public function filiere()
     {
-        return $this->hasMany(Etudiant::class);
+        return $this->belongsTo(Filiere::class, 'filiere_id');
+    }
+
+    public function matieres()
+    {
+        return $this->belongsToMany(Matiere::class, 'classes_matieres')->withPivot(['enseignant_id', 'heures_hebdo']);
     }
 
 }

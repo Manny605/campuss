@@ -3,53 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Etudiant;
-use App\Models\Matiere;
-use App\Models\Semestre;
+use App\Models\Inscription;
 
 class Note extends Model
 {
+    protected $table = 'notes';
+
     protected $fillable = [
-        'etudiant_id',
-        'matiere_id',
-        'semestre_id',
-        'type_evaluation',
-        'valeur',
-        'poids',
-        'date'
+        'inscription_id', 'devoir_id', 'examen_id',
+        'note', 'commentaire', 'corrige_par'
     ];
 
-    protected $casts = [
-        'date' => 'date',
-    ];
-
-    /**
-     * Get the etudiant that owns the Note
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function etudiant(): BelongsTo
+    public function inscription()
     {
-        return $this->belongsTo(Etudiant::class);
-    }
-
-        /**
-     * Get the etudiant that owns the Note
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function matiere(): BelongsTo
-    {
-        return $this->belongsTo(Matiere::class);
-    }
-
-        /**
-     * Get the etudiant that owns the Note
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function semestre(): BelongsTo
-    {
-        return $this->belongsTo(Semestre::class);
+        return $this->belongsTo(Inscription::class, 'inscription_id');
     }
 }

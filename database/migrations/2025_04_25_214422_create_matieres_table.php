@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('nom');
             $table->decimal('coefficient', 4, 2)->default(1.00);
-            $table->foreignId('semestre_id')->constrained('semestres')->onDelete('cascade');
+            $table->foreignId('periode_id')->constrained('periodes')->onDelete('cascade');
             $table->timestamps();
         });
     }

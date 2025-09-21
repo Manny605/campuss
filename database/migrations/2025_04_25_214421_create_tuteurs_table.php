@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('tuteurs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('prenom');
-            $table->string('nom');
-            $table->string('telephone');
+            $table->string('relation'); // ex: parent, tuteur légal
             $table->timestamps();
         });
     }

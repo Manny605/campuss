@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('plannings', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('classe_id')->constrained()->onDelete('cascade');
+            $table->foreignId('salle_id')->constrained()->onDelete('cascade');
             $table->foreignId('matiere_id')->constrained()->onDelete('cascade');
-            $table->foreignId('enseignant_id')->constrained()->onDelete('cascade');
+            $table->foreignId('enseignant_id')->constrained('users')->onDelete('cascade');
             $table->enum('jour_semaine', ['lundi', 'mardi', 'mercredi', 'jeudi' ,'vendredi', 'samedi', 'dimanche']);
             $table->time('heure_debut')->nullable();
             $table->time('heure_fin')->nullable();
-            $table->string('salle')->nullable();
             $table->timestamps();
         });
     }
