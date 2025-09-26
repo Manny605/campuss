@@ -20,7 +20,7 @@ class EnseignantController extends Controller
     public function index()
     {
         $enseignants = Enseignant::orderBy('created_at', 'desc')->paginate(10);
-        return view('pages.admin.enseignants.index', compact('enseignants'));
+        return view('pages.gestion_rh.enseignants.index', compact('enseignants'));
     }
 
     /**
@@ -28,7 +28,7 @@ class EnseignantController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.enseignants.create', [
+        return view('pages.gestion_rh.enseignants.create', [
             'users' => \App\Models\User::all(),
             'classes' => \App\Models\Classe::all(),
             'matieres' => \App\Models\Matiere::all(),
@@ -88,7 +88,7 @@ class EnseignantController extends Controller
         $filieres = Filiere::with('matieres')->get();
         $niveaux = \App\Models\Niveau::all();
         $enseignant = \App\Models\Enseignant::findOrFail($id);
-        return view('pages.admin.enseignants.AffectMatiere', compact('enseignant', 'filieres', 'niveaux'));
+        return view('pages.gestion_rh.enseignants.AffectMatiere', compact('enseignant', 'filieres', 'niveaux'));
     }
 
     /**
@@ -99,7 +99,7 @@ class EnseignantController extends Controller
         $enseignant = \App\Models\Enseignant::findOrFail($id);
         $classes = \App\Models\Classe::all();
         $matieres = \App\Models\Matiere::all();
-        return view('pages.admin.enseignants.edit', compact('enseignant', 'classes', 'matieres'));
+        return view('pages.gestion_rh.enseignants.edit', compact('enseignant', 'classes', 'matieres'));
     }
 
     /**

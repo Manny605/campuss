@@ -1,6 +1,6 @@
 <x-layout>
-    <x-slot:title>Création d'étudiant - Admin</x-slot>
-    <x-slot:header>Création d'étudiant</x-slot>
+    <x-slot:title>Création d'un compte</x-slot>
+    <x-slot:header>Création d'un compte</x-slot>
 
     <div class="p-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Créer un nouvel étudiant</h2>

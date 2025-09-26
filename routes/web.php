@@ -8,12 +8,35 @@ use App\Http\Controllers\Admin\EnseignantController;
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('roles')->controller(\App\Http\Controllers\Admin\RoleController::class)->group(function () {
-        Route::get('/', 'index')->name('roles.index');
-        Route::post('/store', 'store')->name('roles.store');
-        Route::put('/update/{id}', 'update')->name('roles.update');
-        Route::delete('/delete/{id}', 'destroy')->name('roles.destroy');
+    Route::prefix('/securite_comptes')->group(function () {
+
+        Route::prefix('utilisateurs')->controller(\App\Http\Controllers\UserController::class)->group(function () {
+            Route::get('/', 'index')->name('users.index');
+            Route::get('/create', 'create')->name('users.create');
+            Route::post('/store', 'store')->name('users.store');
+            Route::get('/edit/{user}', 'edit')->name('users.edit');
+            Route::put('/update/{user}', 'update')->name('users.update');
+            Route::delete('/delete/{user}', 'destroy')->name('users.destroy');
+        });
+
+        Route::prefix('roles')->controller(\App\Http\Controllers\RoleController::class)->group(function () {
+            Route::get('/', 'index')->name('roles.index');
+            Route::post('/store', 'store')->name('roles.store');
+            Route::put('/update/{role}', 'update')->name('roles.update');
+            Route::delete('/delete/{role}', 'destroy')->name('roles.destroy');
+            Route::get('/{role_id}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'PageAffectPermissionsToRole'])->name('roles.PageAffectPermissionsToRole');
+        });
+
+        Route::prefix('permissions')->controller(\App\Http\Controllers\PermissionController::class)->group(function () {
+            Route::get('/', 'index')->name('permissions.index');
+            Route::post('/store', 'store')->name('permissions.store');
+            Route::put('/update/{permission}', 'update')->name('permissions.update');
+            Route::delete('/delete/{permission}', 'destroy')->name('permissions.destroy');
+        });
+
     });
+
+    
 
 
     Route::prefix('/programmes')->group(function () {

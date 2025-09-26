@@ -11,7 +11,7 @@ class Tuteur extends Model
 {
     protected $table = 'tuteurs';
 
-    protected $fillable = ['id', 'relation'];
+    protected $fillable = ['user_id', 'relation'];
 
     public function etudiants()
     {
