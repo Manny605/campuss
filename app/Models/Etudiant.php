@@ -15,7 +15,7 @@ class Etudiant extends Model
 
     public function tuteurs()
     {
-        return $this->belongsToMany(Tuteur::class, 'etudiants_parents', 'etudiant_id', 'parent_id');
+        return $this->belongsToMany(Tuteur::class, 'etudiant_tuteur', 'etudiant_id', 'tuteur_id');
     }
 
     public function inscriptions()

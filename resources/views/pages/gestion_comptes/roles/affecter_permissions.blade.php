@@ -1,38 +1,53 @@
 <x-layout>
-    <x-slot name="title">Affecter des permissions au rôle {{ $role->name }}</x-slot>
 
-    <x-slot name="breadcrumb">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                {{-- <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">Rôles</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('roles.show', $role->id) }}">{{ $role->name }}</a></li> --}}
-                <li class="breadcrumb-item active" aria-current="page">Affecter des permissions</li>
-            </ol>
-        </nav>
-    </x-slot>
+    <x-slot:title>Affecter des permissions au rôle {{ $role->name }}</x-slot:title>
+    <x-slot:header>Affecter des permissions au rôle {{ $role->name }}</x-slot:header>
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Affecter des permissions au rôle {{ $role->name }}</h3>
+    <div class="p-6">
+        <div class="flex items-center justify-between border-b pb-4 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                <i class="fas fa-user-shield text-indigo-600"></i>
+                Affecter des permissions au rôle <span class="text-indigo-600">“{{ $role->name }}”</span>
+            </h2>
         </div>
-        <div class="card-body">
-            <form action="" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label for="permissions" class="form-label">Sélectionner les permissions à affecter :</label>
-                    <select name="permissions[]" id="permissions" class="form-select" multiple required>
-                        @foreach ($permissions as $permission)
-                            <option value="{{ $permission->id }}" {{ $role->hasPermissionTo($permission) ? 'selected' : '' }}>
-                                {{ $permission->name }}
-                            </option>
-                        @endforeach
-                    </select>
+
+        <form action="{{ route('roles.AffectPermissionsToRole', $role->id) }}" method="POST" class="space-y-8">
+            @csrf
+
+            <!-- Liste de permissions en checkboxes -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-4">
+                    <i class="fas fa-key mr-2 text-indigo-500"></i>
+                    Sélectionner les permissions à affecter :
+                </label>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach ($permissions as $permission)
+                        <label
+                            class="flex items-center gap-3 p-3 border rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition">
+                            <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                            <span class="text-gray-800">{{ ucfirst($permission->name) }}</span>
+                        </label>
+                    @endforeach
                 </div>
-                <button type="submit" class="btn btn-primary">Affecter les permissions</button>
-            </form>
-        </div>
+            </div>
+
+            <!-- Boutons -->
+            <div class="flex gap-4">
+                <button type="submit"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition">
+                    <i class="fas fa-check"></i> Enregistrer
+                </button>
+                <a href="{{ route('roles.index') }}"
+                    class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 transition">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+            </div>
+        </form>
     </div>
 </x-layout>
+
 
 
 {{-- {{ route('roles.permissions.attach', $role->id) }} --}}

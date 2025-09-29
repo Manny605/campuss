@@ -1,185 +1,157 @@
 <x-layout>
-    <x-slot:title>Création d'un compte</x-slot:title>
-    <x-slot:header>
-        Création d'un compte
-    </x-slot:header>
+    <x-slot:title>Modification d'un compte - {{ $role->name }}</x-slot:title>
+    <x-slot:header>Modification d'un compte - {{ $role->name }}</x-slot:header>
 
-    <!-- Full width container -->
-    <div class="w-full max-w-6xl mx-auto p-10 bg-white rounded-2xl shadow-xl mt-8">
-        <h1 class="text-3xl font-bold mb-8 flex items-center gap-3 text-gray-800">
-            <i class="fas fa-pencil-alt text-yellow-500"></i>
-            Modifier un Utilisateur
+    <div class="p-6">
+        <h1 class="text-3xl font-bold mb-8 flex items-center gap-3 text-indigo-700">
+            <i class="fas fa-edit"></i> Modification du compte ({{ $role->name }})
         </h1>
 
-        <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <form action="{{ route('users.update', $user) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Prénom -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        <i class="fas fa-id-badge mr-2 text-indigo-500"></i>Prénom
-                    </label>
-                    <input type="text" name="prenom"
-                        value="{{ old('prenom', $user->prenom) }}"
-                        required
-                        class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
-                </div>
-
-                <!-- Nom -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        <i class="fas fa-user mr-2 text-indigo-500"></i>Nom
-                    </label>
-                    <input type="text" name="nom"
-                        value="{{ old('nom', $user->nom) }}"
-                        required
-                        class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
-                </div>
-
-                <!-- Téléphone -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        <i class="fas fa-phone mr-2 text-indigo-500"></i>Téléphone
-                    </label>
-                    <input type="text" name="telephone"
-                        value="{{ old('telephone', $user->telephone) }}"
-                        required
-                        class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
-                </div>
-
-                <!-- Identifiant -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        <i class="fas fa-user-circle mr-2 text-indigo-500"></i>Identifiant
-                    </label>
-                    <input type="text" name="identifiant"
-                        value="{{ old('identifiant', $user->identifiant) }}"
-                        required
-                        class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
-                </div>
-
-                <!-- Mot de passe -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        <i class="fas fa-lock mr-2 text-indigo-500"></i>Mot de passe
-                        <span class="text-xs text-gray-400">(laisser vide si inchangé)</span>
-                    </label>
-                    <input type="password" name="password"
-                        class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
-                </div>
-
-                <!-- Statut -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        <i class="fas fa-toggle-on mr-2 text-indigo-500"></i>Statut
-                    </label>
-                    <select name="status"
-                        class="w-full px-4 py-2 border rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
-                        <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>Actif</option>
-                        <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>Inactif</option>
-                    </select>
+            <!-- Informations personnelles -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-id-card text-indigo-500"></i> Informations personnelles
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <x-input icon="fas fa-id-badge" placeholder="Prénom" name="prenom" type="text"
+                        value="{{ old('prenom', $user->prenom) }}" required />
+                    <x-input icon="fas fa-user" placeholder="Nom" name="nom" type="text"
+                        value="{{ old('nom', $user->nom) }}" required />
+                    <x-input icon="fas fa-phone" placeholder="Téléphone" name="telephone" type="text"
+                        value="{{ old('telephone', $user->telephone) }}" required />
                 </div>
             </div>
 
-            <!-- Avatar -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    <i class="fas fa-image mr-2 text-indigo-500"></i>Avatar
-                </label>
-                @if ($user->avatar_url)
-                    <div class="mb-3 flex items-center gap-4">
-                        <img src="{{ asset('storage/' . $user->avatar_url) }}" alt="Avatar"
-                            class="w-20 h-20 rounded-full object-cover border shadow" />
-                        <span class="text-sm text-gray-600">Actuel</span>
+            <!-- Identifiants -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-user-circle text-indigo-500"></i> Identifiants de connexion
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <x-input icon="fas fa-user-circle" placeholder="Identifiant" name="identifiant" type="text"
+                        value="{{ old('identifiant', $user->identifiant) }}" required />
+                    <x-input icon="fas fa-lock" placeholder="Nouveau mot de passe (optionnel)" name="password" type="password" />
+                    <x-input icon="fas fa-lock" placeholder="Confirmer le mot de passe" name="password_confirmation"
+                        type="password" />
+                </div>
+            </div>
+
+            <!-- Paramètres -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-user-cog text-indigo-500"></i> Paramètres du compte
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Avatar -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-image mr-2 text-indigo-500"></i>Avatar
+                        </label>
+                        @if ($user->avatar_url)
+                            <div class="mb-2">
+                                <img src="{{ asset('storage/' . $user->avatar_url) }}" 
+                                     class="h-16 w-16 rounded-full object-cover border">
+                            </div>
+                        @endif
+                        <input type="file" name="avatar_url" accept="image/*"
+                            class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md 
+                                   file:border-0 file:text-sm file:font-semibold 
+                                   file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
                     </div>
-                @endif
 
-                <input type="file" name="avatar_url" accept="image/*"
-                    class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
-                           file:rounded-md file:border-0
-                           file:text-sm file:font-semibold
-                           file:bg-indigo-50 file:text-indigo-700
-                           hover:file:bg-indigo-100 cursor-pointer" />
+                    <!-- Rôle -->
+                    <div class="relative hidden">
+                        <select id="role-select" name="role"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg 
+                                   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                            <option value="">{{ '-- Selectionnez un rôle --' }}</option>
+                                <option value="{{ $role->name }}"
+                                    @selected(old('role', $user->roles->first()->name ?? '') == $role->name)>
+                                    {{ ucfirst($role->name) }}
+                                </option>
+                        </select>
+                        @error('role')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
             </div>
 
-            <!-- Rôle -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <i class="fas fa-user-tag mr-2 text-indigo-500"></i>Rôle
-                </label>
-                <select name="role" id="role-select"
-                    class="w-full px-4 py-2 border rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
-                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="enseignant" {{ old('role', $user->role) == 'enseignant' ? 'selected' : '' }}>Enseignant</option>
-                    <option value="etudiant" {{ old('role', $user->role) == 'etudiant' ? 'selected' : '' }}>Etudiant</option>
-                    <option value="tuteur" {{ old('role', $user->role) == 'tuteur' ? 'selected' : '' }}>Tuteur</option>
-                </select>
-            </div>
-
-            <!-- Champs spécifiques -->
-            <div id="etudiant-fields" style="{{ old('role', $user->role) == 'etudiant' ? '' : 'display:none;' }}">
-                <h2 class="text-lg font-medium mt-4 mb-2 text-gray-700">Informations étudiant</h2>
+            <!-- Étudiant -->
+            <div id="etudiant-fields" class="bg-white p-6 rounded-xl shadow-md hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-user-graduate text-indigo-500"></i> Informations étudiant
+                </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Matricule</label>
-                        <input type="text" name="matricule"
-                            value="{{ old('matricule', optional($user->tuteur)->matricule) }}"
-                            class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
+                    <x-input placeholder="Matricule" name="matricule" type="text"
+                        value="{{ old('matricule', $user->etudiant->matricule ?? '') }}" />
+                    <x-input placeholder="Date de naissance" name="date_naissance" type="date"
+                        value="{{ old('date_naissance', $user->etudiant->date_naissance ?? '') }}" />
+                    <x-input placeholder="Lieu de naissance" name="lieu_naissance" type="text"
+                        value="{{ old('lieu_naissance', $user->etudiant->lieu_naissance ?? '') }}" />
+                    <div class="relative">
+                        <select id="genre" name="genre"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg 
+                                   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                            <option value="">{{ '-- Type de genre --' }}</option>
+                            <option value="masculin" @selected(old('genre', $user->etudiant->genre ?? '') == 'masculin')>Masculin</option>
+                            <option value="feminin" @selected(old('genre', $user->etudiant->genre ?? '') == 'feminin')>Féminin</option>
+                        </select>
+                        @error('genre')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Date de naissance</label>
-                        <input type="date" name="date_naissance"
-                            value="{{ old('date_naissance', optional($user->tuteur)->date_naissance) }}"
-                            class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Lieu de naissance</label>
-                        <input type="text" name="lieu_naissance"
-                            value="{{ old('lieu_naissance', optional($user->tuteur)->lieu_naissance) }}"
-                            class="w-full px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" />
-                    </div>
+                </div>
+
+                <!-- Gestion des tuteurs associés -->
+                <h2 class="text-xl font-semibold text-gray-800 mt-6 mb-4 flex items-center gap-2">
+                    <i class="fas fa-user-shield text-indigo-500"></i> Tuteur associé
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <x-input placeholder="Prénom du tuteur" name="prenom_tuteur" type="text"
+                        value="{{ old('prenom_tuteur', $tuteur->prenom ?? '') }}" />
+                    <x-input placeholder="Nom du tuteur" name="nom_tuteur" type="text"
+                        value="{{ old('nom_tuteur', $tuteur->nom ?? '') }}" />
+                    <x-input placeholder="Téléphone du tuteur" name="telephone_tuteur" type="text"
+                        value="{{ old('telephone_tuteur', $tuteur->telephone ?? '') }}" />
+                    <x-input icon="fas fa-lock" placeholder="Mot de passe du tuteur" name="password_tuteur" type="password" />
                 </div>
             </div>
 
-            <!-- Relation si Tuteur -->
-            <div id="tuteur-fields" style="{{ old('role', $user->role) == 'tuteur' ? '' : 'display:none;' }}">
-                <h2 class="text-lg font-medium mt-4 mb-2 text-gray-700">Informations Tuteur</h2>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Relation</label>
-                <select name="relation"
-                    class="w-full px-4 py-2 border rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
-                    <option value="pere" {{ old('relation', optional($user->relation)) == 'pere' ? 'selected' : '' }}>Père</option>
-                    <option value="mere" {{ old('relation', optional($user->relation)) == 'mere' ? 'selected' : '' }}>Mère</option>
-                    <option value="tuteur" {{ old('relation', optional($user->relation)) == 'tuteur' ? 'selected' : '' }}>Autre Tuteur</option>
-                </select>
-            </div>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const roleSelect = document.getElementById('role-select');
-                    const etuFields = document.getElementById('etudiant-fields');
-                    const tutFields = document.getElementById('tuteur-fields');
-
-                    roleSelect.addEventListener('change', function () {
-                        etuFields.style.display = this.value === 'etudiant' ? 'block' : 'none';
-                        tutFields.style.display = this.value === 'tuteur' ? 'block' : 'none';
-                    });
-                });
-            </script>
-
-            <!-- Actions -->
+            <!-- Boutons -->
             <div class="flex gap-4 mt-8">
                 <button type="submit"
-                    class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-md hover:opacity-90 transition">
-                    <i class="fas fa-check"></i> Mettre à jour
+                    class="inline-flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 
+                           text-white font-semibold rounded-xl shadow-md transition">
+                    <i class="fas fa-check"></i> Enregistrer
                 </button>
-
-                <a href="{{ route('users.index') }}"
-                    class="inline-flex items-center gap-2 px-8 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 transition">
+                <a href="{{ route('users.indexUsersByRole', $role) }}"
+                    class="inline-flex items-center gap-2 px-8 py-3 border border-gray-300 
+                           text-gray-700 rounded-xl hover:bg-gray-100 transition">
                     <i class="fas fa-arrow-left"></i> Retour
                 </a>
             </div>
         </form>
     </div>
+
+    <!-- JS pour afficher les champs selon le rôle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleSelect = document.getElementById('role-select');
+            const etuFields = document.getElementById('etudiant-fields');
+
+            function toggleSections(role) {
+                etuFields.classList.toggle('hidden', role !== 'etudiant');
+            }
+
+            toggleSections(roleSelect.value.toLowerCase());
+            roleSelect.addEventListener('change', () => toggleSections(roleSelect.value.toLowerCase()));
+        });
+    </script>
 </x-layout>

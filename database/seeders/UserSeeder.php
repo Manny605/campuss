@@ -19,6 +19,8 @@ class UserSeeder extends Seeder
             'telephone' => '0000000000',
             'identifiant' => 'admin',
             'password' => Hash::make('admin'),
-        ]);
+            'statut' => 'active',
+            'avatar_url' => null,
+        ])->assignRole('admin');
     }
 }

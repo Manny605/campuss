@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Etudiant;
+use App\Models\ParentTuteur;
 
 class User extends Authenticatable
 {
@@ -20,9 +22,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'nom', 'prenom', 'telephone',
+        'nom', 
+        'prenom', 
+        'telephone',
         'identifiant',
-        'password', 'statut'
+        'password',
+        'avatar_url',
+        'statut',
     ];
 
 
@@ -31,17 +37,6 @@ class User extends Authenticatable
 
 
     // Relations
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_role');
-    }
-
-    public function permissions()
-    {
-        return $this->roles->map->permissions->flatten()->unique('id');
-    }
-
     public function etudiant()
     {
         return $this->hasOne(Etudiant::class, 'id');

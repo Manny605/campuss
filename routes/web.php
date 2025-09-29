@@ -10,13 +10,21 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('/securite_comptes')->group(function () {
 
-        Route::prefix('utilisateurs')->controller(\App\Http\Controllers\UserController::class)->group(function () {
+        Route::prefix('/utilisateurs')->controller(\App\Http\Controllers\UserController::class)->group(function () {
             Route::get('/', 'index')->name('users.index');
-            Route::get('/create', 'create')->name('users.create');
+
+            Route::prefix('role')->group(function() {
+                Route::get('/{role}', 'indexUsersByRole')->name('users.indexUsersByRole');
+                Route::get('/{role}/create', 'create')->name('users.create');
+                Route::get('/{role}/edit/{user}', 'edit')->name('users.edit');
+            });
+
+
+
             Route::post('/store', 'store')->name('users.store');
-            Route::get('/edit/{user}', 'edit')->name('users.edit');
             Route::put('/update/{user}', 'update')->name('users.update');
             Route::delete('/delete/{user}', 'destroy')->name('users.destroy');
+
         });
 
         Route::prefix('roles')->controller(\App\Http\Controllers\RoleController::class)->group(function () {
@@ -24,7 +32,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', 'store')->name('roles.store');
             Route::put('/update/{role}', 'update')->name('roles.update');
             Route::delete('/delete/{role}', 'destroy')->name('roles.destroy');
-            Route::get('/{role_id}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'PageAffectPermissionsToRole'])->name('roles.PageAffectPermissionsToRole');
+            Route::get('/{role}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'PageAffectPermissionsToRole'])->name('roles.PageAffectPermissionsToRole');
+            Route::post('/{role}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'AffectPermissionsToRole'])->name('roles.AffectPermissionsToRole');
         });
 
         Route::prefix('permissions')->controller(\App\Http\Controllers\PermissionController::class)->group(function () {
@@ -137,24 +146,24 @@ Route::middleware('auth')->group(function () {
     // });
     
 
-    Route::prefix('/enseignants')->controller(EnseignantController::class)->group(function () {
-        Route::get('/', 'index')->name('enseignants.index');
-        Route::get('/create', 'create')->name('enseignants.create');
-        Route::post('/store', 'store')->name('enseignants.store');
-        Route::get('/edit/{id}', 'edit')->name('enseignants.edit');
-        Route::put('/update/{id}', 'update')->name('enseignants.update');
-        Route::delete('/delete/{id}', 'destroy')->name('enseignants.destroy');
-        Route::get('/matieres/{id}', 'pageAffectMatieres')->name('enseignants.matieres');
-    });
+    // Route::prefix('/enseignants')->controller(EnseignantController::class)->group(function () {
+    //     Route::get('/', 'index')->name('enseignants.index');
+    //     Route::get('/create', 'create')->name('enseignants.create');
+    //     Route::post('/store', 'store')->name('enseignants.store');
+    //     Route::get('/edit/{id}', 'edit')->name('enseignants.edit');
+    //     Route::put('/update/{id}', 'update')->name('enseignants.update');
+    //     Route::delete('/delete/{id}', 'destroy')->name('enseignants.destroy');
+    //     Route::get('/matieres/{id}', 'pageAffectMatieres')->name('enseignants.matieres');
+    // });
 
-    Route::prefix('/etudiants')->controller(EtudiantController::class)->group(function () {
-        Route::get('/', 'index')->name('etudiants.index');
-        Route::get('/create', 'create')->name('etudiants.create');
-        Route::post('/store', 'store')->name('etudiants.store');
-        Route::get('/edit/{id}', 'edit')->name('etudiants.edit');
-        Route::put('/update/{id}', 'update')->name('etudiants.update');
-        Route::delete('/delete/{id}', 'destroy')->name('etudiants.destroy');
-    });
+    // Route::prefix('/etudiants')->controller(EtudiantController::class)->group(function () {
+    //     Route::get('/', 'index')->name('etudiants.index');
+    //     Route::get('/create', 'create')->name('etudiants.create');
+    //     Route::post('/store', 'store')->name('etudiants.store');
+    //     Route::get('/edit/{id}', 'edit')->name('etudiants.edit');
+    //     Route::put('/update/{id}', 'update')->name('etudiants.update');
+    //     Route::delete('/delete/{id}', 'destroy')->name('etudiants.destroy');
+    // });
 });
 
 require __DIR__.'/auth.php';

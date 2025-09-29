@@ -1,26 +1,40 @@
 <x-layout>
 
     <x-slot:title>
-        Gestion de comptes
+        Gestion de comptes - {{ $role->name }}
     </x-slot:title>
 
     <x-slot:header>
-        Gestion des comptes
+        Gestion des comptes - {{ $role->name }}
     </x-slot:header>
 
     <div class="container mx-auto px-4 py-8">
         <!-- Header avec bouton d'ajout -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Les comptes</h2>
-                <p class="text-sm text-gray-500 mt-1">Gérez les comptes de votre établissement</p>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Les comptes - {{ $role->name }}</h2>
+                <p class="text-sm text-gray-500 mt-1">
+                    Gérez les comptes <span class="text-indigo-600">{{ $role->name }}</span> de votre établissement
+                </p>
             </div>
-            <a href="{{ route('users.create') }}"
-                class="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg shadow transition-colors duration-200">
-                <i class="fas fa-plus mr-2"></i>
-                <span>Ajouter</span>
-            </a>
+
+            <div class="flex gap-3">
+                <!-- Bouton Retour -->
+                <a href="{{ route('users.index') }}"
+                    class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2.5 rounded-lg shadow transition-colors duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    <span>Retour</span>
+                </a>
+
+                <!-- Bouton Ajouter -->
+                <a href="{{ route('users.create', $role) }}"
+                    class="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg shadow transition-colors duration-200">
+                    <i class="fas fa-plus mr-2"></i>
+                    <span>Ajouter</span>
+                </a>
+            </div>
         </div>
+
 
         <!-- Barre de recherche -->
         <div class="bg-white rounded-lg shadow p-4 mb-6">
@@ -66,31 +80,31 @@
                                     {{ $loop->iteration }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $user->prenom }} {{ $user->nom }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->prenom }}
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $user->identifiant }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    ....</td>
+                                    {{ $user->getRoleNames()->first() }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span
                                         class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
                                         <i class="fas fa-check-circle mr-1"></i>
-                                        {{ $user->status }}
+                                        {{ $user->statut }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
-                                        <a href=""
+                                        {{-- <a href=""
                                             class="text-green-600 hover:text-green-900 p-1.5 rounded-full hover:bg-green-50 transition-colors duration-200"
                                             title="Plus">
                                             <i class="fas fa-ellipsis-h w-4 h-4"></i>
-                                        </a>
-                                        <a href="{{ route('users.edit', $user) }}"
+                                        </a> --}}
+                                        <a href="{{ route('users.edit', [$role, $user]) }}"
                                             class="text-blue-600 hover:text-blue-900 p-1.5 rounded-full hover:bg-blue-50 transition-colors duration-200"
                                             title="Modifier">
                                             <i class="fas fa-edit w-4 h-4"></i>
                                         </a>
                                         <button type="button"
-                                            onclick="document.getElementById('delete_id').value = {{ $user->id }}; openModal('deleteModal-{{ $user->id }}')" 
+                                            onclick="document.getElementById('delete_id').value = {{ $user->id }}; openModal('deleteModal-{{ $user->id }}')"
                                             class="text-red-600 hover:text-red-900 p-1.5 rounded-full hover:bg-red-50 transition-colors duration-200"
                                             title="Supprimer">
                                             <i class="fas fa-trash w-4 h-4"></i>
@@ -104,11 +118,11 @@
             </div>
 
             <!-- Pagination -->
-            {{-- @if ($users->hasPages())
+            @if ($users->hasPages())
                 <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
                     {{ $users->links() }}
                 </div>
-            @endif --}}
+            @endif
         </div>
     </div>
 
