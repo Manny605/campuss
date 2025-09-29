@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('etudiants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('matricule')->unique();
+            $table->string('matricule')->nullable();
             $table->date('date_naissance')->nullable();
             $table->string('lieu_naissance')->nullable();
-            $table->string('genre')->nullable(); // ex: M, F
+            $table->enum('genre', ['masculin', 'feminin'])->nullable();
             $table->timestamps();
         });
     }

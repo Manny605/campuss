@@ -11,11 +11,11 @@ class Etudiant extends Model
 {
     protected $table = 'etudiants';
 
-    protected $fillable = ['id', 'matricule', 'date_naissance', 'lieu_naissance', 'genre'];
+    protected $fillable = ['user_id', 'matricule', 'date_naissance', 'lieu_naissance', 'genre'];
 
     public function tuteurs()
     {
-        return $this->belongsToMany(Tuteur::class, 'etudiants_parents', 'etudiant_id', 'parent_id');
+        return $this->belongsToMany(Tuteur::class, 'etudiant_tuteur', 'etudiant_id', 'tuteur_id');
     }
 
     public function inscriptions()
