@@ -65,8 +65,8 @@
                     <x-dropdown-item icon="fas fa-project-diagram" text="Filières" href="{{ route('filieres.index') }}" :active="request()->routeIs('filieres.index')" />
                     <x-dropdown-item icon="fas fa-stream" text="Periodes" href="{{ route('periodes.index') }}" :active="request()->routeIs('periodes.index')" />
                     <x-dropdown-item icon="fas fa-th-list" text="Niveaux" href="{{ route('niveaux.index') }}" :active="request()->routeIs('niveaux.index')" />
-                    {{-- <x-dropdown-item icon="fas fa-th-list" text="Plannings" href="{{ route('plannings.index') }}" :active="request()->routeIs('plannings.index')" />
-                    <x-dropdown-item icon="fas fa-th-list" text="Classes" href="{{ route('classes.index') }}" :active="request()->routeIs('classes.index')" /> --}}
+                    {{-- <x-dropdown-item icon="fas fa-th-list" text="Plannings" href="{{ route('plannings.index') }}" :active="request()->routeIs('plannings.index')" /> --}}
+                    <x-dropdown-item icon="fas fa-th-list" text="Classes" href="{{ route('classes.index') }}" :active="request()->routeIs('classes.index')" />
                 </x-nav-dropdown>
 {{-- 
                 <!-- Communication -->

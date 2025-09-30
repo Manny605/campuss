@@ -115,11 +115,11 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-input placeholder="Prénom du tuteur" name="prenom_tuteur" type="text"
-                        value="{{ old('prenom_tuteur', $tuteur->prenom ?? '') }}" />
+                        value="{{ old('prenom_tuteur', $tuteur->user->prenom ?? '') }}" />
                     <x-input placeholder="Nom du tuteur" name="nom_tuteur" type="text"
-                        value="{{ old('nom_tuteur', $tuteur->nom ?? '') }}" />
+                        value="{{ old('nom_tuteur', $tuteur->user->nom ?? '') }}" />
                     <x-input placeholder="Téléphone du tuteur" name="telephone_tuteur" type="text"
-                        value="{{ old('telephone_tuteur', $tuteur->telephone ?? '') }}" />
+                        value="{{ old('telephone_tuteur', $tuteur->user->telephone ?? '') }}" />
                     <x-input icon="fas fa-lock" placeholder="Nouveau mot de passe (optionnel)" name="password_tuteur"
                         type="password" />
                     <x-input icon="fas fa-lock" placeholder="Confirmer le mot de passe"

@@ -95,6 +95,14 @@ Route::middleware('auth')->group(function () {
         });
 
 
+        Route::prefix('classes')->controller(\App\Http\Controllers\ClasseController::class)->group(function () {
+            Route::get('/', 'index')->name('classes.index');
+            Route::post('/store', 'store')->name('classes.store');
+            Route::put('/update/{id}', 'update')->name('classes.update');
+            Route::delete('/delete/{id}', 'destroy')->name('classes.destroy');
+        });
+
+
 
 
     });

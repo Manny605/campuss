@@ -1,124 +1,153 @@
 <x-layout>
     <x-slot:title>
-        Affectation des niveaux aux filières - Admin
+        Gestion Académique - Création de classes
     </x-slot:title>
-
     <x-slot:header>
-        <div class="flex items-center">
-            <i class="fas fa-link text-blue-500 mr-2"></i>
-            Affectation des niveaux aux filières
-        </div>
+        Gestion Académique - Création de classes
     </x-slot:header>
 
-    <div class="container mx-auto px-4 py-8">
-        <!-- Header avec bouton d'ajout -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-            <div>
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center">
-                    <i class="fas fa-project-diagram text-blue-500 mr-3"></i>
-                    Lier des niveaux à la filière
+    <div class="p-6">
+        <!-- Titre principal -->
+        <h1 class="text-3xl font-bold mb-8 flex items-center gap-3 text-indigo-700">
+            <i class="fas fa-layer-group"></i> Création de classes
+        </h1>
+
+        <!-- Formulaire principal -->
+        <form id="classeForm" action="{{ route('classes.store') }}" method="POST" class="space-y-8">
+            @csrf
+
+            <!-- Section champs -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-id-card text-indigo-500"></i> Informations de la classe
                 </h2>
-                <p class="text-gray-600 mt-2">Sélectionnez les niveaux à associer à une filière</p>
-            </div>
-        </div>
 
-        <!-- Carte principale -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
-            <form method="POST" action="">
-                @csrf
-                @method('PUT')
+                <div id="classe-fields" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Nom -->
+                    <x-input icon="fas fa-id-badge" placeholder="Nom de la classe" name="nom[]" type="text"
+                        required />
 
-                <!-- En-tête de la carte -->
-                <div class="bg-gradient-to-r from-blue-50 to-blue-100 px-6 py-4 border-b">
-                    <div class="flex items-center">
-                        <i class="fas fa-graduation-cap text-blue-500 mr-3 text-xl"></i>
-                        <h3 class="text-lg font-semibold text-gray-800">Configuration des niveaux</h3>
-                    </div>
-                </div>
-
-                <!-- Corps de la carte -->
-                <div class="p-6">
-                    <!-- Filière (lecture seule) -->
-                    <div class="mb-8">
-                        <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                            <i class="fas fa-university mr-2 text-blue-500"></i>
-                            Filière sélectionnée
-                        </label>
-                        <div class="flex items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
-                            <i class="fas fa-tag text-gray-400 mr-3"></i>
-                            <span class="font-medium text-gray-800">{{ $filiere->nom }}</span>
-                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full">
-                                {{ $filiere->niveaux->count() }} niveaux associées
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Liste des niveaux -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-3 flex items-center">
-                            <i class="fas fa-book-open mr-2 text-blue-500"></i>
-                            Niveaux disponibles
-                        </label>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            @foreach ($niveaux as $niveau)
-                                <div class="relative">
-                                    <input type="checkbox" name="niveaux[]" value="{{ $niveau->id }}"
-                                        id="niveau_{{ $niveau->id }}" 
-                                        class="hidden peer"
-                                        {{ in_array($niveau->id, $filiereNiveaux) ? 'checked' : '' }}>
-                                    <label for="niveau_{{ $niveau->id }}" 
-                                        class="inline-flex items-center justify-between w-full p-4 border rounded-lg cursor-pointer 
-                                        peer-checked:border-blue-500 peer-checked:bg-blue-50 
-                                        hover:bg-gray-50 transition-colors">
-                                        <div class="flex items-center">
-                                            <i class="fas fa-book text-blue-400 mr-3"></i>
-                                            <div>
-                                                <div class="font-medium text-gray-800">{{ $niveau->nom }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="text-xs px-2 py-1 rounded-full 
-                                            {{ in_array($niveau->id, $filiereNiveaux) ? 
-                                               'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' }}">
-                                            {{ in_array($niveau->id, $filiereNiveaux) ? 'Associée' : 'Non associée' }}
-                                        </div>
-                                    </label>
-                                </div>
+                    <!-- Filière -->
+                    <div class="relative">
+                        <select name="filiere_id[]"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                            <option value="">-- Sélectionnez une filière --</option>
+                            @foreach ($filieres as $filiere)
+                                <option value="{{ $filiere->id }}">{{ $filiere->nom }}</option>
                             @endforeach
-                        </div>
+                        </select>
                     </div>
 
-                    <!-- Bouton de soumission -->
-                    <div class="mt-8 pt-6 border-t flex justify-end">
-                        <button type="submit" 
-                                class="flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md transition-all
-                                       hover:shadow-lg transform hover:-translate-y-0.5">
-                            <i class="fas fa-save mr-2"></i>
-                            Enregistrer
-                        </button>
+                    <!-- Niveau -->
+                    <div class="relative">
+                        <select name="niveau_id[]"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                            <option value="">-- Sélectionnez un niveau --</option>
+                            @foreach ($niveaux as $niveau)
+                                <option value="{{ $niveau->id }}">{{ $niveau->nom }}</option>
+                            @endforeach
+                        </select>
                     </div>
+
+                    <!-- Année académique -->
+                    <div class="relative">
+                        <select name="annee_academique_id[]"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200">
+                            <option value="">-- Sélectionnez une année académique --</option>
+                            @foreach ($annees as $annee)
+                                <option value="{{ $annee->id }}" @selected(old('annee_academique_id') == $annee->id || $annee->active)>
+                                    {{ $annee->code }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    <!-- Capacité -->
+                    <x-input icon="fas fa-users" placeholder="Capacité" name="capacite[]" type="number" min="1"
+                        required />
                 </div>
-            </form>
-        </div>
 
-        <!-- Information supplémentaire -->
-        <div class="mt-6 text-center text-sm text-gray-500">
-            <i class="fas fa-info-circle mr-1"></i>
-            Sélectionnez ou désélectionnez les matières puis cliquez sur "Enregistrer"
-        </div>
+                <!-- Bouton Ajouter -->
+                <div class="mt-6">
+                    <button type="button" id="addRow"
+                        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-md">
+                        <i class="fas fa-plus"></i> Ajouter une autre classe
+                    </button>
+                </div>
+            </div>
+
+            <!-- Section tableau -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fas fa-table text-indigo-500"></i> Liste des classes à créer
+                </h2>
+                <table id="classeTable" class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100 text-left">
+                        <tr>
+                            <th class="px-4 py-2">Nom</th>
+                            <th class="px-4 py-2">Filière</th>
+                            <th class="px-4 py-2">Niveau</th>
+                            <th class="px-4 py-2">Année académique</th>
+                            <th class="px-4 py-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 text-sm"></tbody>
+                </table>
+            </div>
+
+            <!-- Boutons -->
+            <div class="flex gap-4 mt-8">
+                <button type="submit"
+                    class="inline-flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 
+                           text-white font-semibold rounded-xl shadow-md transition">
+                    <i class="fas fa-check"></i> Enregistrer
+                </button>
+            </div>
+        </form>
     </div>
 
-    <!-- Style personnalisé -->
-    <style>
-        input:checked + label 
-        {
-            border-color: #3B82F6;
-            background-color: #EFF6FF;
-        }
-        input:checked + label div:last-child 
-        {
-            background-color: #DBEAFE;
-            color: #1E40AF;
-        }
-    </style>
+    <!-- Script pour gestion dynamique -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const addRowBtn = document.getElementById("addRow");
+            const tableBody = document.querySelector("#classeTable tbody");
+            const form = document.getElementById("classeForm");
+
+            addRowBtn.addEventListener("click", function() {
+                const fields = document.querySelectorAll("#classe-fields [name]");
+                const row = document.createElement("tr");
+
+                fields.forEach(field => {
+                    const td = document.createElement("td");
+                    td.classList.add("px-4", "py-2");
+
+                    if (field.tagName === "SELECT") {
+                        td.textContent = field.options[field.selectedIndex].text;
+                    } else {
+                        td.textContent = field.value;
+                    }
+                    row.appendChild(td);
+                });
+
+                // Ajout colonne Action
+                const actionTd = document.createElement("td");
+                actionTd.classList.add("px-4", "py-2");
+                actionTd.innerHTML = `<button type="button" class="text-red-500 hover:underline removeRow">Supprimer</button>`;
+                row.appendChild(actionTd);
+
+                tableBody.appendChild(row);
+
+                // reset les champs
+                fields.forEach(field => field.value = "");
+            });
+
+            // Suppression de ligne
+            tableBody.addEventListener("click", function(e) {
+                if (e.target.classList.contains("removeRow")) {
+                    e.target.closest("tr").remove();
+                }
+            });
+        });
+    </script>
 </x-layout>

@@ -39,14 +39,7 @@ class ProgrammeController extends Controller
 
 
 
-    public function indexClasse($id) 
-    {
-        $filiere = Filiere::findOrFail($id);
-        $niveaux = Niveau::all();
-        $filiereNiveaux = $filiere->niveaux()->pluck('id')->toArray();
 
-        return view('pages.admin.programmes.classes.index', compact('niveaux', 'filiere', 'filiereNiveaux'));
-    }
 
 
     public function indexMatiereToEnseignant() 
@@ -69,13 +62,6 @@ class ProgrammeController extends Controller
 
 
 
-    // Create methods
-    public function createClasse(Request $request)
-    {
-        $filieres = Filiere::all();
-        $niveaux = Niveau::all();
-        return view('pages.admin.programmes.classes.create', compact('filieres', 'niveaux'));
-    }
 
 
 
@@ -119,24 +105,7 @@ class ProgrammeController extends Controller
 
 
 
-    public function storeClasse(Request $request)
-    {
-        $request->validate([
-            'filiere_niveau_id' => 'required|exists:filiere_niveau,id',
-            'annee_id' => 'required|exists:annees,id',
-        ]);
 
-        Classe::create($request->all());
-
-        Swal::toast([
-            'icon' => 'success',
-            'title' => 'Classe ajoutée avec succès.',
-            'position' => 'top-end',
-            'timer' => 3000,
-            'showConfirmButton' => false,
-        ]);
-        return redirect()->back();
-    }
 
     public function storeMatiereToFiliere(Request $request)
     {
@@ -221,25 +190,6 @@ class ProgrammeController extends Controller
 
 
 
-    public function updateClasse(Request $request, $id)
-    {
-        $request->validate([
-            'filiere_niveau_id' => 'required|exists:filieres,id',
-            'annee_id' => 'required|exists:annees,id',
-        ]);
-
-        $classe = Classe::findOrFail($id);
-        $classe->update($request->all());
-
-        Swal::toast([
-            'icon' => 'success',
-            'title' => 'Classe mise à jour avec succès.',
-            'position' => 'top-end',
-            'timer' => 3000,
-            'showConfirmButton' => false,
-        ]);
-        return redirect()->back();
-    }
 
 
 
@@ -287,20 +237,6 @@ class ProgrammeController extends Controller
     }
 
 
-
-    public function destroyClasse($id)
-    {
-        $classe = Classe::findOrFail($id);
-        $classe->delete();
-        Swal::toast([
-            'icon' => 'success',
-            'title' => 'Classe supprimée avec succès.',
-            'position' => 'top-end',
-            'timer' => 3000,
-            'showConfirmButton' => false,
-        ]);
-        return redirect()->back();
-    }
 
     public function destroyMatiereToFiliere($id)
     {
