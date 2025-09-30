@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Etudiant;
-use App\Models\ParentTuteur;
+use App\Models\Tuteur;
 
 class User extends Authenticatable
 {
@@ -39,12 +39,12 @@ class User extends Authenticatable
     // Relations
     public function etudiant()
     {
-        return $this->hasOne(Etudiant::class, 'id');
+        return $this->hasOne(Etudiant::class, 'user_id');
     }
 
-    public function parent()
+    public function tuteur()
     {
-        return $this->hasOne(ParentTuteur::class, 'id');
+        return $this->hasOne(Tuteur::class, 'user_id');
     }
 
 

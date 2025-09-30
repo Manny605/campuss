@@ -129,11 +129,10 @@ class UserController extends Controller
 
     public function edit(Role $role, User $user)
     {
-        $user = User::findOrFail($user->id);
-        $tuteur = $user->etudiant?->tuteurs()->first()?->user;
-        $role = Role::where('name', $role->name)->first();
+$tuteur = $user->etudiant?->tuteurs()->first();
         return view('pages.gestion_comptes.comptes.edit', compact('user', 'tuteur', 'role'));
     }
+
 
     public function update(Request $request, User $user)
     {

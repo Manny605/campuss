@@ -34,7 +34,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <x-input icon="fas fa-user-circle" placeholder="Identifiant" name="identifiant" type="text"
                         value="{{ old('identifiant', $user->identifiant) }}" required />
-                    <x-input icon="fas fa-lock" placeholder="Nouveau mot de passe (optionnel)" name="password" type="password" />
+                    <x-input icon="fas fa-lock" placeholder="Nouveau mot de passe (optionnel)" name="password"
+                        type="password" />
                     <x-input icon="fas fa-lock" placeholder="Confirmer le mot de passe" name="password_confirmation"
                         type="password" />
                 </div>
@@ -46,7 +47,7 @@
                     <i class="fas fa-user-cog text-indigo-500"></i> Paramètres du compte
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
+
                     <!-- Avatar -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -54,8 +55,8 @@
                         </label>
                         @if ($user->avatar_url)
                             <div class="mb-2">
-                                <img src="{{ asset('storage/' . $user->avatar_url) }}" 
-                                     class="h-16 w-16 rounded-full object-cover border">
+                                <img src="{{ asset('storage/' . $user->avatar_url) }}"
+                                    class="h-16 w-16 rounded-full object-cover border">
                             </div>
                         @endif
                         <input type="file" name="avatar_url" accept="image/*"
@@ -70,10 +71,9 @@
                             class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg 
                                    focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
                             <option value="">{{ '-- Selectionnez un rôle --' }}</option>
-                                <option value="{{ $role->name }}"
-                                    @selected(old('role', $user->roles->first()->name ?? '') == $role->name)>
-                                    {{ ucfirst($role->name) }}
-                                </option>
+                            <option value="{{ $role->name }}" @selected(old('role', $user->roles->first()->name ?? '') == $role->name)>
+                                {{ ucfirst($role->name) }}
+                            </option>
                         </select>
                         @error('role')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -120,24 +120,43 @@
                         value="{{ old('nom_tuteur', $tuteur->nom ?? '') }}" />
                     <x-input placeholder="Téléphone du tuteur" name="telephone_tuteur" type="text"
                         value="{{ old('telephone_tuteur', $tuteur->telephone ?? '') }}" />
-                    <x-input icon="fas fa-lock" placeholder="Mot de passe du tuteur" name="password_tuteur" type="password" />
+                    <x-input icon="fas fa-lock" placeholder="Nouveau mot de passe (optionnel)" name="password_tuteur"
+                        type="password" />
+                    <x-input icon="fas fa-lock" placeholder="Confirmer le mot de passe"
+                        name="password_tuteur_confirmation" type="password" />
+                    <div class="relative">
+                        <select id="relation" name="relation"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg 
+               focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                            <option value="">{{ __('-- Relation avec l\'étudiant --') }}</option>
+                            <option value="pere" @selected(old('relation', $tuteur->relation ?? '') === 'pere')>Père</option>
+                            <option value="mere" @selected(old('relation', $tuteur->relation ?? '') === 'mere')>Mère</option>
+                            <option value="autre" @selected(old('relation', $tuteur->relation ?? '') === 'autre')>Autre</option>
+                        </select>
+
+                        @error('relation')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                 </div>
             </div>
+    </div>
 
-            <!-- Boutons -->
-            <div class="flex gap-4 mt-8">
-                <button type="submit"
-                    class="inline-flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 
+    <!-- Boutons -->
+    <div class="flex gap-4 mt-8">
+        <button type="submit"
+            class="inline-flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 
                            text-white font-semibold rounded-xl shadow-md transition">
-                    <i class="fas fa-check"></i> Enregistrer
-                </button>
-                <a href="{{ route('users.indexUsersByRole', $role) }}"
-                    class="inline-flex items-center gap-2 px-8 py-3 border border-gray-300 
+            <i class="fas fa-check"></i> Enregistrer
+        </button>
+        <a href="{{ route('users.indexUsersByRole', $role) }}"
+            class="inline-flex items-center gap-2 px-8 py-3 border border-gray-300 
                            text-gray-700 rounded-xl hover:bg-gray-100 transition">
-                    <i class="fas fa-arrow-left"></i> Retour
-                </a>
-            </div>
-        </form>
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+    </div>
+    </form>
     </div>
 
     <!-- JS pour afficher les champs selon le rôle -->
