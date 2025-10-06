@@ -27,7 +27,10 @@ Route::middleware('auth')->group(function () {
 
         });
 
-        Route::prefix('roles')->controller(\App\Http\Controllers\RoleController::class)->group(function () {
+    });
+
+    Route::prefix('/roles_permissions')->group(function() {
+        Route::prefix('/roles')->controller(\App\Http\Controllers\RoleController::class)->group(function () {
             Route::get('/', 'index')->name('roles.index');
             Route::post('/store', 'store')->name('roles.store');
             Route::put('/update/{role}', 'update')->name('roles.update');
@@ -36,19 +39,18 @@ Route::middleware('auth')->group(function () {
             Route::post('/{role}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'AffectPermissionsToRole'])->name('roles.AffectPermissionsToRole');
         });
 
-        Route::prefix('permissions')->controller(\App\Http\Controllers\PermissionController::class)->group(function () {
+        Route::prefix('/permissions')->controller(\App\Http\Controllers\PermissionController::class)->group(function () {
             Route::get('/', 'index')->name('permissions.index');
             Route::post('/store', 'store')->name('permissions.store');
             Route::put('/update/{permission}', 'update')->name('permissions.update');
             Route::delete('/delete/{permission}', 'destroy')->name('permissions.destroy');
         });
-
     });
 
     
 
 
-    Route::prefix('/programmes')->group(function () {
+    Route::prefix('/académique')->group(function () {
 
         Route::prefix('annees')->controller(\App\Http\Controllers\Admin\AnneeController::class)->group(function () {
             Route::get('/', 'index')->name('annees.index');
