@@ -5,7 +5,7 @@
     <div class="p-6">
         <!-- Titre principal -->
         <h1 class="text-3xl font-bold mb-8 flex items-center gap-3 text-indigo-700">
-            <i class="fas fa-users-cog"></i> Gestion des Comptes
+            <i class="fas fa-users-cog"></i> Gestion des utilisateurs
         </h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

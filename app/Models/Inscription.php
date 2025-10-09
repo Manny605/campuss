@@ -12,7 +12,7 @@ class Inscription extends Model
     protected $table = 'inscriptions';
 
     protected $fillable = [
-        'etudiant_id', 'classe_id', 'annee_id',
+        'etudiant_id', 'classe_id',
         'statut', 'date_inscription'
     ];
 

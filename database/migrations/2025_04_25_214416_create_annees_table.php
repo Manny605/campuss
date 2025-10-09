@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('annees', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique(); // ex 2023-2024
-            $table->date('date_debut');
-            $table->date('date_fin');
+            $table->date('date_debut')->nullable();
+            $table->date('date_fin')->nullable();
             $table->boolean('active')->default(false);
             $table->timestamps();
         });

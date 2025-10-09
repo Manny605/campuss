@@ -16,25 +16,19 @@ class Classe extends Model
 
     protected $fillable = [
         'annee_id', 
-        'niveau_id', 
-        'filiere_id',
+        'filiere_niveau_id',
         'nom', 
         'capacite'
     ];
 
+    public function filiereNiveau()
+    {
+        return $this->belongsTo(FiliereNiveau::class, 'filiere_niveau_id');
+    }
+
     public function anneeAcademique()
     {
         return $this->belongsTo(Annee::class, 'annee_id');
-    }
-
-    public function niveau()
-    {
-        return $this->belongsTo(Niveau::class, 'niveau_id');
-    }
-
-    public function filiere()
-    {
-        return $this->belongsTo(Filiere::class, 'filiere_id');
     }
 
     public function matieres()
