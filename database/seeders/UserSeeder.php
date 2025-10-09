@@ -21,6 +21,9 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin'),
             'statut' => 'active',
             'avatar_url' => null,
-        ])->assignRole('admin');
+        ]);
+
+        $admin = User::where('identifiant', 'admin')->first();
+        $admin->assignRole('admin');
     }
 }
