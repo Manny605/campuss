@@ -1,14 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\ProgrammeController;
-use App\Http\Controllers\Admin\EtudiantController;
-use App\Http\Controllers\Admin\EnseignantController;
 
 
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('/securite_comptes')->group(function () {
 
         Route::prefix('/utilisateurs')->controller(\App\Http\Controllers\UserController::class)->group(function () {
             Route::get('/', 'index')->name('users.index');
@@ -27,7 +23,6 @@ Route::middleware('auth')->group(function () {
 
         });
 
-    });
 
     Route::prefix('/roles_permissions')->group(function() {
         Route::prefix('/roles')->controller(\App\Http\Controllers\RoleController::class)->group(function () {
@@ -50,14 +45,7 @@ Route::middleware('auth')->group(function () {
     
 
 
-    Route::prefix('/académique')->group(function () {
-
-        Route::prefix('annees')->controller(\App\Http\Controllers\Admin\AnneeController::class)->group(function () {
-            Route::get('/', 'index')->name('annees.index');
-            Route::post('/store', 'store')->name('annees.store');
-            Route::put('/update/{id}', 'update')->name('annees.update');
-            Route::delete('/delete/{id}', 'destroy')->name('annees.destroy');
-        });
+    Route::prefix('/academique')->group(function () {
 
         Route::prefix('filieres')->controller(\App\Http\Controllers\Admin\FiliereController::class)->group(function () {
             Route::get('/', 'index')->name('filieres.index');
@@ -104,76 +92,27 @@ Route::middleware('auth')->group(function () {
             Route::delete('/delete/{id}', 'destroy')->name('classes.destroy');
         });
 
+    });
 
+
+
+
+
+
+    Route::prefix('/parametres')->group(function () {
+        
+        Route::prefix('annees')->controller(\App\Http\Controllers\AnneeController::class)->group(function () {
+            Route::get('/', 'index')->name('annees.index');
+            Route::post('/store', 'store')->name('annees.store');
+            Route::put('/update/{id}', 'update')->name('annees.update');
+            Route::delete('/delete/{id}', 'destroy')->name('annees.destroy');
+        });
 
 
     });
 
 
-    // Route::prefix('/programmes')->controller(ProgrammeController::class)->group(function () {
-    //     // Index routes
-    //     Route::get('/niveaux', 'indexNiveau')->name('programmes.indexNiveau');
-    //     Route::get('/filieres', 'indexFiliere')->name('programmes.indexFiliere');
-    //     Route::get('/periodes', 'indexPeriode')->name('programmes.indexPeriode');
-    //     Route::get('/classes', 'indexClasse')->name('programmes.indexClasse');
 
-
-
-    //     // Store routes
-    //     Route::post('/niveaux/store', 'storeNiveau')->name('programmes.storeNiveau');
-    //     Route::post('/filieres/store', 'storeFiliere')->name('programmes.storeFiliere');
-    //     Route::post('/periodes/store', 'storePeriode')->name('programmes.storePeriode');
-    //     // Route::post('/matieres/store', 'storeMatiere')->name('programmes.storeMatiere');
-    //     Route::post('/classes/store', 'storeClasse')->name('programmes.storeClasse');
-
-    //     // Show routes
-    //     Route::get('/filieres/{id}', 'showFiliere')->name('programmes.showFiliere');
-
-    //     // Update routes
-    //     Route::put('/niveaux/update/{id}', 'updateNiveau')->name('programmes.updateNiveau');
-    //     Route::put('/filieres/update/{id}', 'updateFiliere')->name('programmes.updateFiliere');
-    //     Route::put('/periodes/update/{id}', 'updatePeriode')->name('programmes.updatePeriode');
-    //     Route::put('/classes/update/{id}', 'updateClasse')->name('programmes.updateClasse');
-
-    //     // Delete routes
-    //     Route::delete('/niveaux/delete/{id}', 'destroyNiveau')->name('programmes.destroyNiveau');
-    //     Route::delete('/filieres/delete/{id}', 'destroyFiliere')->name('programmes.destroyFiliere');
-    //     Route::delete('/periodes/delete/{id}', 'destroyPeriode')->name('programmes.destroyPeriode');
-    //     Route::delete('/classes/delete/{id}', 'destroyClasse')->name('programmes.destroyClasse');
-
-    //     Route::prefix('affectations')->group(function () {
-            
-    //         Route::get('/filieres/niveaux/{id}', 'indexNiveauxFiliere')->name('programmes.indexNiveauxFiliere');
-    //         Route::put('/AffectNiveauxToFiliere/{filiere}', 'AffectNiveauxToFiliere')->name('programmes.updateAffectNiveauxToFiliere');
-
-    //         Route::get('/filieres/matieres/{fid}/{sid}', 'createMatieresToFiliere')->name('programmes.createMatieresToFiliere');
-    //         Route::post('/storeMatiere', 'AffectMatieresToFiliere')->name('programmes.AffectMatieresToFiliere');
-    //         Route::put('/matieres/update/{id}', 'updateMatiere')->name('programmes.updateMatiere');
-    //         Route::delete('/matieres/delete/{id}', 'destroyMatiere')->name('programmes.destroyMatiere');
-
-    //     });
-        
-    // });
-    
-
-    // Route::prefix('/enseignants')->controller(EnseignantController::class)->group(function () {
-    //     Route::get('/', 'index')->name('enseignants.index');
-    //     Route::get('/create', 'create')->name('enseignants.create');
-    //     Route::post('/store', 'store')->name('enseignants.store');
-    //     Route::get('/edit/{id}', 'edit')->name('enseignants.edit');
-    //     Route::put('/update/{id}', 'update')->name('enseignants.update');
-    //     Route::delete('/delete/{id}', 'destroy')->name('enseignants.destroy');
-    //     Route::get('/matieres/{id}', 'pageAffectMatieres')->name('enseignants.matieres');
-    // });
-
-    // Route::prefix('/etudiants')->controller(EtudiantController::class)->group(function () {
-    //     Route::get('/', 'index')->name('etudiants.index');
-    //     Route::get('/create', 'create')->name('etudiants.create');
-    //     Route::post('/store', 'store')->name('etudiants.store');
-    //     Route::get('/edit/{id}', 'edit')->name('etudiants.edit');
-    //     Route::put('/update/{id}', 'update')->name('etudiants.update');
-    //     Route::delete('/delete/{id}', 'destroy')->name('etudiants.destroy');
-    // });
 });
 
 require __DIR__.'/auth.php';

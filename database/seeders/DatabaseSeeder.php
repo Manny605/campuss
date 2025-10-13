@@ -26,8 +26,6 @@ class DatabaseSeeder extends Seeder
             NiveauSeeder::class,
             PeriodeSeeder::class,
 
-
-
         ]);
     }
 }

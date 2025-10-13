@@ -19,7 +19,7 @@
 
             <!-- Utilisateurs -->
             <x-dashboard-nav-link href="{{ route('users.index') }}" icon="fas fa-users" text="Utilisateurs"
-                :active="request()->routeIs('users.index')" />
+                :active="request()->routeIs(['users.*'])" />
 
             <!-- Rôles & Permissions -->
             <x-nav-dropdown icon="fas fa-user-shield" text="Rôles & Permissions" :active="request()->is('roles_permissions*')">
@@ -31,8 +31,8 @@
 
             <!-- Académique -->
             <x-nav-dropdown icon="fas fa-graduation-cap" text="Académique" :active="request()->is('academique*')">
-                <x-dropdown-item icon="fas fa-calendar-alt" text="Années" href="{{ route('annees.index') }}"
-                    :active="request()->routeIs('annees.index')" />
+                {{-- <x-dropdown-item icon="fas fa-calendar-alt" text="Années" href="{{ route('annees.index') }}"
+                    :active="request()->routeIs('annees.index')" /> --}}
                 <x-dropdown-item icon="fas fa-building-columns" text="Filières" href="{{ route('filieres.index') }}"
                     :active="request()->routeIs('filieres.index')" />
                 <x-dropdown-item icon="fas fa-clock" text="Périodes" href="{{ route('periodes.index') }}"
@@ -46,8 +46,7 @@
             <!-- Paramètres -->
             <x-nav-dropdown icon="fas fa-cogs" text="Paramètres" :active="request()->is('parametres*')">
                 <x-dropdown-item icon="fas fa-sliders-h" text="Général" href="#" :active="request()->routeIs('')" />
-                <x-dropdown-item icon="fas fa-calendar-check" text="Années académiques" href="#"
-                    :active="request()->routeIs('')" />
+                <x-dropdown-item icon="fas fa-calendar-check" text="Années académiques" href="{{ route('annees.index') }}" :active="request()->routeIs('annees*')" />
                 <x-dropdown-item icon="fas fa-user-circle" text="Profil" href="#" :active="request()->routeIs('')" />
             </x-nav-dropdown>
 

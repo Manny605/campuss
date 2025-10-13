@@ -27,10 +27,9 @@ class FiliereMatiereSeeder extends Seeder
             }
 
             foreach ($matiereIds as $matiereKey) {
-                \App\Models\Filiere_Matiere::create([
+                \App\Models\FiliereMatiere::create([
                     'filiere_id' => $filiereId,
                     'matiere_id' => $matieres[$matiereKey],
-                    'coefficient' => rand(1, 5),
                 ]);
             }
         }

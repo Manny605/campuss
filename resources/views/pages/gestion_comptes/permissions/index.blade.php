@@ -83,12 +83,12 @@
                 </table>
             </div>
 
-            {{-- <!-- Pagination -->
+            <!-- Pagination -->
             @if ($permissions->hasPages())
-                <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                <div class="bg-gray-100 px-4 py-3 border-t border-gray-200 sm:px-6">
                     {{ $permissions->links() }}
                 </div>
-            @endif --}}
+            @endif
         </div>
     </div>
 

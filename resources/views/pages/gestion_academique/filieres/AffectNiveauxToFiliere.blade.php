@@ -129,7 +129,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <i class="fas fa-book text-blue-500 mr-3"></i>
-                                                <span class="text-sm font-medium text-gray-900">{{ $periode->matieres->count() }}</span>
+                                                <span class="text-sm font-medium text-gray-900">{{ $filiere->matieres->where('periode_id', $periode->id)->count() }}</span>
                                             </div>
                                         </td>
                                         <!-- Actions -->

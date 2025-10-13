@@ -22,4 +22,9 @@ class Matiere extends Model
         return $this->belongsToMany(Filiere::class, 'filiere_matiere', 'matiere_id', 'filiere_id');
     }
 
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
+
 }
