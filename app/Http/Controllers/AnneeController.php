@@ -13,7 +13,7 @@ class AnneeController extends Controller
 
     public function index()
     {
-        $annees = Annee::orderBy('created_at', 'desc')->get();
+        $annees = Annee::orderBy('created_at', 'desc')->paginate(10);
         return view('pages.gestion_academique.annees.index', [
             'annees' => $annees
         ]);

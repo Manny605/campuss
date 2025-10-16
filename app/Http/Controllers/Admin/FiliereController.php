@@ -13,7 +13,7 @@ class FiliereController extends Controller
 
     public function index()
     {
-        $filieres = Filiere::orderBy('created_at', 'desc')->get();
+        $filieres = Filiere::orderBy('created_at', 'desc')->paginate(10);
         return view('pages.gestion_academique.filieres.index', [
             'filieres' => $filieres
         ]);

@@ -47,7 +47,7 @@
             <x-nav-dropdown icon="fas fa-cogs" text="Paramètres" :active="request()->is('parametres*')">
                 <x-dropdown-item icon="fas fa-sliders-h" text="Général" href="#" :active="request()->routeIs('')" />
                 <x-dropdown-item icon="fas fa-calendar-check" text="Années académiques" href="{{ route('annees.index') }}" :active="request()->routeIs('annees*')" />
-                <x-dropdown-item icon="fas fa-user-circle" text="Profil" href="#" :active="request()->routeIs('')" />
+                <x-dropdown-item icon="fas fa-user-circle" text="Profil" href="{{ route('profile.edit') }}" :active="request()->routeIs('')" />
             </x-nav-dropdown>
 
         </nav>

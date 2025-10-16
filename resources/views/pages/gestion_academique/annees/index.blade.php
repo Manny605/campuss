@@ -1,7 +1,7 @@
 <x-layout>
 
     <x-slot:title>
-        Gestion des Années Académiques - Admin
+        Gestion des Années Académiques
     </x-slot>
 
     <x-slot:header>
@@ -16,7 +16,7 @@
                 <p class="text-sm text-gray-500 mt-1">Gérez les années académiques de votre établissement</p>
             </div>
             <button onclick="openModal('addModal')"
-                class="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg shadow transition-colors duration-200">
+                class="flex cursor-pointer items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg shadow transition-colors duration-200">
                 <i class="fas fa-plus mr-2"></i>
                 <span>Ajouter</span>
             </button>
@@ -92,13 +92,13 @@
                                     <div class="flex justify-end space-x-2">
                                         <button
                                             onclick="document.getElementById('editModal-{{ $annee->id }}').value = {{ $annee->id }}; openModal('editModal-{{ $annee->id }}')"
-                                            class="text-blue-600 hover:text-blue-900 p-1.5 rounded-full hover:bg-blue-50 transition-colors duration-200"
+                                            class="text-blue-600 cursor-pointer hover:text-blue-900 p-1.5 rounded-full hover:bg-blue-50 transition-colors duration-200"
                                             title="Modifier cette année">
                                             <i class="fas fa-edit w-4 h-4"></i>
                                         </button>
                                         <button
-                                            onclick="document.getElementById('delete_id').value = {{ $annee->id }}; openModal('deleteModal-{{ $annee->id }}')"
-                                            class="text-red-600 hover:text-red-900 p-1.5 rounded-full hover:bg-red-50 transition-colors duration-200"
+                                            onclick="document.getElementById('deleteModal-{{ $annee->id }}').value = {{ $annee->id }}; openModal('deleteModal-{{ $annee->id }}')"
+                                            class="text-red-600 cursor-pointer hover:text-red-900 p-1.5 rounded-full hover:bg-red-50 transition-colors duration-200"
                                             title="Supprimer cette année">
                                             <i class="fas fa-trash w-4 h-4"></i>
                                         </button>
@@ -117,57 +117,58 @@
                 </table>
             </div>
 
-            {{-- <!-- Pagination -->
+            <!-- Pagination -->
             @if ($annees->hasPages())
                 <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
                     {{ $annees->links() }}
                 </div>
-            @endif --}}
+            @endif
         </div>
     </div>
 
     <!-- Modals -->
     <!-- Modal Ajout -->
-    <x-modal id="addModal" title="Ajouter une année académique" maxWidth="lg">
+    <x-modal id="addModal" title="Ajouter une année académique" maxWidth="lg" type="default">
         <form id="addForm" action="{{ route('annees.store') }}" method="POST" class="space-y-6">
             @csrf
             {{-- Code de l'année --}}
             <div>
-                <label for="code" class="block text-sm font-medium text-gray-700">Code</label>
-                <input type="text" name="code" id="code" required
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Ex: 2025-2026">
+                <x-input type="text" name="code" id="code" required placeholder="Ex: 2025-2026" />
             </div>
 
             {{-- Date de début --}}
             <div>
-                <label for="date_debut" class="block text-sm font-medium text-gray-700">Date de début</label>
-                <input type="date" name="date_debut" id="date_debut" required
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <x-input type="date" name="date_debut" id="date_debut" required />
             </div>
 
             {{-- Date de fin --}}
             <div>
-                <label for="date_fin" class="block text-sm font-medium text-gray-700">Date de fin</label>
-                <input type="date" name="date_fin" id="date_fin" required
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <x-input type="date" name="date_fin" id="date_fin" required />
             </div>
 
             {{-- Statut (Active / Inactive) --}}
-            <div class="flex items-center">
-                <input type="checkbox" name="active" id="active" value="1"
-                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                <label for="active" class="ml-2 block text-sm text-gray-700">Active</label>
+            <div class="flex items-center space-x-4">
+                <label for="active" class="text-sm font-medium text-gray-700">Statut :</label>
+                <div class="flex items-center">
+                    <input type="radio" name="active" id="active-yes" value="1"
+                        class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                    <label for="active-yes" class="ml-2 text-sm text-gray-700">Active</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="radio" name="active" id="active-no" value="0"
+                        class="h-4 w-4 text-red-600 border-gray-300 focus:ring-red-500">
+                    <label for="active-no" class="ml-2 text-sm text-gray-700">Inactive</label>
+                </div>
             </div>
 
             {{-- Boutons d'action --}}
             <div class="mt-6 flex justify-end space-x-3">
                 <button type="button" onclick="closeModal('addModal')"
-                    class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                    class="px-4 py-2 cursor-pointer border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
                     Annuler
                 </button>
                 <button type="submit"
-                    class="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                    class="px-4 py-2 cursor-pointer border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
                     Enregistrer
                 </button>
             </div>
@@ -177,96 +178,83 @@
 
     @foreach ($annees as $annee)
         <!-- Modal Édition -->
-        <x-modal id="editModal-{{ $annee->id }}" title="Modifier une année académique" maxWidth="lg">
-            <form id="editForm" method="POST" action="{{ route('annees.update', $annee) }}">
+        <x-modal id="editModal-{{ $annee->id }}" title="Modifier une année académique" maxWidth="lg" type="edit">
+            <form id="editForm" action="{{ route('annees.update', $annee) }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
-                <input type="hidden" name="id" value="{{ $annee->id }}">
-                
                 {{-- Code de l'année --}}
                 <div>
-                    <label for="code-{{ $annee->id }}" class="block text-sm font-medium text-gray-700">Code</label>
-                    <input type="text" name="code" id="code-{{ $annee->id }}" required
-                        class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="Ex: 2025-2026" value="{{ old('code', strtoupper($annee->code)) }}">
+                    <x-input type="text" name="code" id="code" value="{{ $annee->code }}" required
+                        placeholder="Ex: 2025-2026" />
                 </div>
 
                 {{-- Date de début --}}
                 <div>
-                    <label for="date_debut-{{ $annee->id }}" class="block text-sm font-medium text-gray-700">Date de début</label>
-                    <input type="date" name="date_debut" id="date_debut-{{ $annee->id }}" required
-                        class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        value="{{ old('date_debut', $annee->date_debut) }}">
+                    <x-input type="date" name="date_debut" id="date_debut"
+                        value="{{ \Carbon\Carbon::parse($annee->date_debut)->format('Y-m-d') }}" required />
                 </div>
 
                 {{-- Date de fin --}}
                 <div>
-                    <label for="date_fin-{{ $annee->id }}" class="block text-sm font-medium text-gray-700">Date de fin</label>
-                    <input type="date" name="date_fin" id="date_fin-{{ $annee->id }}" required
-                        class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        value="{{ old('date_fin', $annee->date_fin) }}">
+                    <x-input type="date" name="date_fin" id="date_fin"
+                        value="{{ \Carbon\Carbon::parse($annee->date_fin)->format('Y-m-d') }}" required />
                 </div>
 
                 {{-- Statut (Active / Inactive) --}}
-                <input type="hidden" name="active" value="0">
-                <div class="flex items-center">
-                    <input type="checkbox" name="active" id="active-{{ $annee->id }}" value="1"
-                        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                        {{ old('active', $annee->active) ? 'checked' : '' }}>
-                    <label for="active-{{ $annee->id }}" class="ml-2 block text-sm text-gray-700">Active</label>
+                <div class="flex items-center space-x-4">
+                    <label for="active" class="text-sm font-medium text-gray-700">Statut :</label>
+                    <div class="flex items-center">
+                        <input type="radio" name="active" id="active-yes-{{ $annee->id }}" value="1"
+                            class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            {{ $annee->active ? 'checked' : '' }}>
+                        <label for="active-yes-{{ $annee->id }}" class="ml-2 text-sm text-gray-700">Active</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" name="active" id="active-no-{{ $annee->id }}" value="0"
+                            class="h-4 w-4 text-red-600 border-gray-300 focus:ring-red-500"
+                            {{ !$annee->active ? 'checked' : '' }}>
+                        <label for="active-no-{{ $annee->id }}"
+                            class="ml-2 text-sm text-gray-700">Inactive</label>
+                    </div>
                 </div>
-
+                {{-- Boutons d'action --}}
                 <div class="mt-6 flex justify-end space-x-3">
                     <button type="button" onclick="closeModal('editModal-{{ $annee->id }}')"
-                        class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                        class="px-4 py-2 cursor-pointer border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
                         Annuler
                     </button>
                     <button type="submit"
-                        class="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
-                        Mettre à jour
+                        class="px-4 py-2 cursor-pointer border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                        Enregistrer
                     </button>
                 </div>
+
             </form>
+
         </x-modal>
     @endforeach
 
     @foreach ($annees as $annee)
         <!-- Modal Suppression -->
-        <x-modal id="deleteModal-{{ $annee->id }}" title="Confirmer la suppression" maxWidth="md">
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-start">
-                    <div
-                        class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <i class="fas fa-exclamation-triangle text-red-600"></i>
-                    </div>
-                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">
-                            Supprimer l'année académique
-                        </h3>
-                        <div class="mt-2">
-                            <p class="text-sm text-gray-500">
-                                Êtes-vous sûr de vouloir supprimer cette année académique ? Cette action est
-                                irréversible.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <form id="deleteForm" method="POST" action="{{ route('annees.destroy', $annee->id) }}/">
-                    @csrf
-                    @method('DELETE')
-                    <input type="hidden" name="id" id="delete_id">
+        <x-modal id="deleteModal-{{ $annee->id }}" title="Confirmer la suppression" maxWidth="md" type="delete">
+            <form id="deleteForm" method="POST" action="{{ route('annees.destroy', $annee) }}">
+                @csrf
+                @method('DELETE')
+
+                <p class="text-gray-700">Êtes-vous sûr de vouloir supprimer l'année académique
+                    <strong>{{ $annee->code }}</strong> ? Cette action est irréversible.</p>
+
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('deleteModal-{{ $annee->id }}')"
+                        class="px-4 py-2 cursor-pointer border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                        Annuler
+                    </button>
                     <button type="submit"
-                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors duration-200">
+                        class="px-4 py-2 cursor-pointer border border-transparent rounded-lg shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
                         Supprimer
                     </button>
-                </form>
-                <button type="button" onclick="closeModal('deleteModal-{{ $annee->id }}')"
-                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors duration-200">
-                    Annuler
-                </button>
-            </div>
+                </div>
+            </form>
         </x-modal>
     @endforeach
 

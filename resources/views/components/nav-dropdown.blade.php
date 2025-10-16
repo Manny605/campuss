@@ -4,7 +4,7 @@
     {{-- Trigger button --}}
     <button 
         @click="open = !open"
-        class="flex items-center justify-between space-x-3 px-4 py-2.5 rounded-md transition-colors w-full"
+        class="flex items-center cursor-pointer justify-between space-x-3 px-4 py-2.5 rounded-md transition-colors w-full"
         :class="{ 
             'bg-blue-700 text-white': {{ $active ? 'true' : 'false' }} || open, 
             'text-gray-200 hover:bg-blue-600 hover:text-white': !{{ $active ? 'true' : 'false' }} && !open 

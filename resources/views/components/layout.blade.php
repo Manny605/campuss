@@ -110,6 +110,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        
+        function removeRow(button) {
+            const list = document.getElementById('classe-list');
+            if (list.children.length > 1) {
+                button.closest('.classe-row').remove();
+            }
+        }
+
+
         function appData() {
             return {
                 sidebarOpen: window.innerWidth >= 768,

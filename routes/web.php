@@ -6,22 +6,22 @@
 Route::middleware('auth')->group(function () {
 
 
-        Route::prefix('/utilisateurs')->controller(\App\Http\Controllers\UserController::class)->group(function () {
-            Route::get('/', 'index')->name('users.index');
+    Route::prefix('/utilisateurs')->controller(\App\Http\Controllers\UserController::class)->group(function () {
+        Route::get('/', 'index')->name('users.index');
 
-            Route::prefix('role')->group(function() {
-                Route::get('/{role}', 'indexUsersByRole')->name('users.indexUsersByRole');
-                Route::get('/{role}/create', 'create')->name('users.create');
-                Route::get('/{role}/edit/{user}', 'edit')->name('users.edit');
-            });
-
-
-
-            Route::post('/store', 'store')->name('users.store');
-            Route::put('/update/{user}', 'update')->name('users.update');
-            Route::delete('/delete/{user}', 'destroy')->name('users.destroy');
-
+        Route::prefix('role')->group(function() {
+            Route::get('/{role}', 'indexUsersByRole')->name('users.indexUsersByRole');
+            Route::get('/{role}/create', 'create')->name('users.create');
+            Route::get('/{role}/edit/{user}', 'edit')->name('users.edit');
         });
+
+
+
+        Route::post('/store', 'store')->name('users.store');
+        Route::put('/update/{user}', 'update')->name('users.update');
+        Route::delete('/delete/{user}', 'destroy')->name('users.destroy');
+
+    });
 
 
     Route::prefix('/roles_permissions')->group(function() {
@@ -106,6 +106,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', 'store')->name('annees.store');
             Route::put('/update/{id}', 'update')->name('annees.update');
             Route::delete('/delete/{id}', 'destroy')->name('annees.destroy');
+        });
+
+        Route::prefix('profile')->controller(\App\Http\Controllers\ProfileController::class)->group(function () {
+            Route::get('/', 'edit')->name('profile.edit');
+            Route::put('/update', 'update')->name('profile.update');
+            Route::put('/password', 'updatePassword')->name('profile.updatePassword');
         });
 
 

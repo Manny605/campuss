@@ -12,12 +12,6 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    // public function index()
-    // {
-    //     $users = User::orderBy('created_at', 'desc')->get();
-
-    //     return view('pages.gestion_comptes.comptes.index', compact('users'));
-    // }
 
     public function index()
     {
@@ -129,7 +123,7 @@ class UserController extends Controller
 
     public function edit(Role $role, User $user)
     {
-$tuteur = $user->etudiant?->tuteurs()->first();
+        $tuteur = $user->etudiant?->tuteurs()->first();
         return view('pages.gestion_comptes.comptes.edit', compact('user', 'tuteur', 'role'));
     }
 

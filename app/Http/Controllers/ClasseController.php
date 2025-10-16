@@ -26,40 +26,45 @@ class ClasseController extends Controller
         $request->validate([
             'annee_id' => ['required', 'exists:annees,id'],
             'classes' => ['required', 'array', 'min:1'],
-            'classes.*.nom' => ['required', 'string', 'max:255'],
             'classes.*.filiere_niveau_id' => ['required', 'exists:filiere_niveau,id'],
+            'classes.*.nom' => ['required', 'string', 'max:255'],
             'classes.*.capacite' => ['required', 'integer', 'min:1'],
         ]);
 
-        Classe::create([
-            'annee_id' => $request->annee_id,
-            'filiere_niveau_id' => $request->classes[0]['filiere_niveau_id'],
-            'nom' => $request->classes[0]['nom'],
-            'capacite' => $request->classes[0]['capacite'],
-        ]);
-
+        foreach ($request->classes as $classData) {
+            Classe::create([
+                'annee_id' => $request->annee_id,
+                'filiere_niveau_id' => $classData['filiere_niveau_id'],
+                'nom' => $classData['nom'],
+                'capacite' => $classData['capacite'],
+            ]);
+        }
+        
         Swal::toast([
             'icon' => 'success',
-            'title' => 'Classe ajoutée avec succès.',
+            'title' => 'Classes ajoutées avec succès.',
             'position' => 'top-end',
             'timer' => 3000,
             'showConfirmButton' => false,
         ]);
+
         return redirect()->back();
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'annee_id' => ['required', 'exists:annees,id'],
-            'classes' => ['required', 'array', 'min:1'],
-            'classes.*.nom' => ['required', 'string', 'max:255'],
-            'classes.*.filiere_niveau_id' => ['required', 'exists:filiere_niveau,id'],
-            'classes.*.capacite' => ['required', 'integer', 'min:1'],
+            'nom' => ['required', 'string', 'max:255'],
+            'filiere_niveau_id' => ['required', 'exists:filiere_niveau,id'],
+            'capacite' => ['required', 'integer', 'min:1'],
         ]);
 
         $classe = Classe::findOrFail($id);
-        $classe->update($request->all());
+        $classe->update([
+            'nom' => $request->nom,
+            'filiere_niveau_id' => $request->filiere_niveau_id,
+            'capacite' => $request->capacite,
+        ]);
 
         Swal::toast([
             'icon' => 'success',
