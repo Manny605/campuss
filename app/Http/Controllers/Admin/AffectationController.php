@@ -22,9 +22,9 @@ class AffectationController extends Controller
         $niveaux = Niveau::all();
         $periodes = Periode::all();
         $filiereNiveaux = $filiere->niveaux()->pluck('niveaux.id')->toArray();
-        // $filiereMatieres = $filiere->matieres()->pluck('matieres.id')->toArray();
+        $filiereMatieres = $filiere->matieres()->pluck('matieres.id')->toArray();
 
-        return view('pages.gestion_academique.filieres.AffectNiveauxToFiliere', compact('matieres', 'niveaux', 'filiere', 'periodes', 'filiereNiveaux'));
+        return view('pages.gestion_academique.filieres.AffectNiveauxToFiliere', compact('matieres', 'niveaux', 'filiere', 'periodes', 'filiereNiveaux', 'filiereMatieres'));
     }
 
     // Affecter des niveaux à une filière

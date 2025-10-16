@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -12,15 +13,22 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        \Spatie\Permission\Models\Role::create(['name' => 'admin']);
-        \Spatie\Permission\Models\Role::create(['name' => 'enseignant']);
-        \Spatie\Permission\Models\Role::create(['name' => 'etudiant']);
-        \Spatie\Permission\Models\Role::create(['name' => 'tuteur']);
-        \Spatie\Permission\Models\Role::create(['name' => 'comptable']);
+        $roles = [
+            'super_admin',
+            'admin',
+            'enseignant',
+            'etudiant',
+            'tuteur',
+            'comptable',
+            'responsable_pedagogique',
+        ];
 
-        //Exxemple des roles qui pourraient être ajoutés plus tard (non limites)
-        // \Spatie\Permission\Models\Role::create(['name' => 'responsable_pedagogique']);
+        foreach ($roles as $role) {
+            Role::firstOrCreate(['name' => $role]);
+        }
 
+        $this->command->info('✅ Rôles créés avec succès.');
     }
 }

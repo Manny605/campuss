@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Annee;
-use App\Models\Niveau;
-use App\Models\Filiere;
+use App\Models\FiliereNiveau;
 use App\Models\Matiere;
 
 

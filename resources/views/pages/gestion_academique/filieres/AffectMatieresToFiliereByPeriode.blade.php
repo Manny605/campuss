@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="md:col-span-1 flex items-center justify-end md:justify-center">
                                         <button type="button" onclick="removeRow(this)"
-                                            class="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition">
+                                            class="text-red-500 cursor-pointer hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
@@ -77,13 +77,13 @@
                         <!-- Boutons -->
                         <div class="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                             <button type="button" onclick="addMatiereRow()"
-                                class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition flex items-center justify-center">
-                                <i class="fas fa-plus mr-2"></i> Ajouter une matière
+                                class="px-4 py-2 cursor-pointer bg-green-600 hover:bg-green-700 text-white rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-plus mr-2"></i> Ajouter une ligne
                             </button>
 
                             <button type="submit"
-                                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center justify-center">
-                                <i class="fas fa-save mr-2"></i> Enregistrer toutes les matières
+                                class="px-4 py-2 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-save mr-2"></i> Enregistrer
                             </button>
                         </div>
                     </form>
@@ -112,11 +112,11 @@
                                     <td class="px-6 py-4">{{ $matiere->coefficient }}</td>
                                     <td class="px-6 py-4 flex space-x-3">
                                         <button onclick="openModal('editModal-{{ $matiere->id }}')"
-                                            class="text-indigo-600 hover:text-indigo-900">
+                                            class="text-indigo-600 cursor-pointer hover:text-indigo-900">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button onclick="openModal('deleteModal-{{ $matiere->id }}')"
-                                            class="text-red-600 hover:text-red-900">
+                                            class="text-red-600 cursor-pointer hover:text-red-900">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </td>
@@ -136,7 +136,7 @@
             <!-- Section Modals -->
             @foreach ($matieres_associees as $matiere)
                 <!-- Modal Édition -->
-                <x-modal id="editModal-{{ $matiere->id }}" title="Modifier une matière" maxWidth="lg">
+                <x-modal id="editModal-{{ $matiere->id }}" title="Modifier une matière" maxWidth="lg" type="edit">
                     <form method="POST" action="{{ route('matieres.update', $matiere) }}">
                         @csrf @method('PUT')
                         <x-matiere-form edit :data="$matiere" />
@@ -150,7 +150,7 @@
                 </x-modal>
 
                 <!-- Modal Suppression -->
-                <x-modal id="deleteModal-{{ $matiere->id }}" title="Confirmer la suppression" maxWidth="md">
+                <x-modal id="deleteModal-{{ $matiere->id }}" title="Confirmer la suppression" maxWidth="md" type="delete">
                     <p class="text-sm text-gray-500 mb-4">Êtes-vous sûr de vouloir supprimer cette matière ?</p>
                     <form method="POST" action="{{ route('matieres.destroy', $matiere->id) }}">
                         @csrf @method('DELETE')
